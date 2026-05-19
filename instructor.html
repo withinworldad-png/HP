@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>講師募集 — With In World</title>
+<title>講師募集 — Unication</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #1E3A6E;
@@ -39,12 +39,13 @@
     padding: 0 40px; height: 60px;
   }
   .logo-nav {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700; font-size: 1.3rem;
-    color: var(--navy); letter-spacing: -0.02em;
+    font-family: 'Comfortaa', cursive;
+    font-weight: 700; font-size: 1.4rem;
+    color: var(--navy); letter-spacing: 0.01em;
     text-decoration: none;
   }
-  .logo-nav span { color: var(--blue-mid); }
+  .logo-nav .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .logo-nav .cation { color:var(--navy); -webkit-text-fill-color:var(--navy); }
   .nav-right { display: flex; align-items: center; gap: 16px; }
   .lang-toggle {
     display: flex; gap: 4px; background: var(--blue-bg);
@@ -527,11 +528,12 @@
     text-align: center; color: rgba(255,255,255,0.4); font-size: 0.82rem;
   }
   .foot-logo {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1.2rem; font-weight: 700; color: rgba(255,255,255,0.8);
+    font-family: 'Comfortaa', cursive;
+    font-size: 1.3rem; font-weight: 700; color: rgba(255,255,255,0.9);
     margin-bottom: 12px;
   }
-  .foot-logo span { color: var(--blue-light); }
+  .foot-logo .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .foot-logo .cation { color:white; -webkit-text-fill-color:white; }
 
   .reveal {
     opacity: 0; transform: translateY(30px);
@@ -554,7 +556,7 @@
 
 <!-- NAV -->
 <nav class="lang-bar">
-  <a href="index.html" class="logo-nav">With In <span>World</span></a>
+  <a href="index.html" class="logo-nav"><span class="uni">Uni</span><span class="cation">cation</span></a>
   <div class="nav-right">
     <a href="index.html" class="back-btn" data-ja="← ホームへ" data-en="← Home">← ホームへ</a>
     <div class="lang-toggle">
@@ -645,7 +647,7 @@
 <section class="story-section">
   <div class="story-inner">
     <div class="section-label" data-ja="立ち上げの背景" data-en="Our Origin Story">立ち上げの背景</div>
-    <h2 class="section-title reveal" data-ja="なぜ、With In Worldを<br>始めたのか。" data-en="Why we started<br>With In World.">なぜ、With In Worldを<br>始めたのか。</h2>
+    <h2 class="section-title reveal" data-ja="なぜ、Unicationを<br>始めたのか。" data-en="Why we started<br>Unication.">なぜ、Unicationを<br>始めたのか。</h2>
     <div class="story-grid">
       <div class="story-text-block">
         <div class="story-body reveal">
@@ -676,7 +678,7 @@
   <div class="benefits-inner">
     <div class="section-label" data-ja="講師として参加する特典" data-en="Instructor Benefits">講師として参加する特典</div>
     <h2 class="section-title reveal" data-ja="教えながら、<br>あなたも成長できる。" data-en="Teach — and grow<br>yourself at the same time.">教えながら、<br>あなたも成長できる。</h2>
-    <p class="reveal" style="font-size:0.95rem;color:var(--text-mid);line-height:1.9;font-weight:300;max-width:620px;margin-bottom:0;" data-ja="With In Worldでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。" data-en="Your time with With In World is a rich learning opportunity not just for learners, but for you as an instructor too.">With In Worldでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。</p>
+    <p class="reveal" style="font-size:0.95rem;color:var(--text-mid);line-height:1.9;font-weight:300;max-width:620px;margin-bottom:0;" data-ja="Unicationでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。" data-en="Your time with Unication is a rich learning opportunity not just for learners, but for you as an instructor too.">Unicationでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。</p>
 
     <div class="benefits-grid">
 
@@ -687,7 +689,7 @@
             <span class="benefit-icon">📜</span>
             <div class="benefit-tag" data-ja="公式証明書" data-en="Official Certificate">公式証明書</div>
             <h3 data-ja="ボランティア証明書を発行します" data-en="Receive an Official Volunteer Certificate">ボランティア証明書を発行します</h3>
-            <p data-ja="With In Worldよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。" data-en="With In World will issue an official volunteer certificate — proof of your international contribution for job hunting, university applications, and personal achievements.">With In Worldよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。</p>
+            <p data-ja="Unicationよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。" data-en="Unication will issue an official volunteer certificate — proof of your international contribution for job hunting, university applications, and personal achievements.">Unicationよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。</p>
           </div>
           <div class="benefit-primary-visual">
             <div class="cert-row">
@@ -730,7 +732,7 @@
         <span class="benefit-icon">🎤</span>
         <div class="benefit-tag" data-ja="イベント登壇" data-en="Event Participation">イベント登壇</div>
         <h3 data-ja="イベント講師として活躍できる" data-en="Become an Event Instructor">イベント講師として活躍できる</h3>
-        <p data-ja="With In Worldが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。" data-en="Participate as an instructor or speaker in online events and workshops organized by With In World. Share your expertise and personal story with the world and forge new connections. There will also be opportunities to join international education programs in the future.">With In Worldが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。</p>
+        <p data-ja="Unicationが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。" data-en="Participate as an instructor or speaker in online events and workshops organized by Unication. Share your expertise and personal story with the world and forge new connections. There will also be opportunities to join international education programs in the future.">Unicationが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。</p>
       </div>
 
       <!-- English conversation benefit -->
@@ -837,7 +839,7 @@
         <div class="flow-step-body">
           <div class="flow-step-num" data-ja="STEP 2" data-en="STEP 2">STEP 2</div>
           <div class="flow-step-title" data-ja="担当者との面談（相互理解）" data-en="Interview with Our Team">担当者との面談（相互理解）</div>
-          <div class="flow-step-desc" data-ja="フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、With In Worldのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。" data-en="After submitting, our team will reach out to you. Through a short online meeting, we'll share With In World's vision and activities, and listen to your thoughts and wishes.">フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、With In Worldのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。</div>
+          <div class="flow-step-desc" data-ja="フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、Unicationのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。" data-en="After submitting, our team will reach out to you. Through a short online meeting, we'll share Unication's vision and activities, and listen to your thoughts and wishes.">フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、Unicationのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。</div>
         </div>
       </div>
 
@@ -885,7 +887,7 @@
         <div class="volunteer-tag" data-ja="※ボランティア" data-en="※ Volunteer">※ボランティア</div>
         <div class="join-type-badge" data-ja="② チームメンバーとして参加" data-en="② Join as a Team Member">② チームメンバーとして参加</div>
         <h3 data-ja="チームメンバーとして参加する" data-en="Team Member Role">チームメンバーとして参加する</h3>
-        <p data-ja="サービス運営・企画・広報など、チームの一員として一緒にWith In Worldを育てましょう。" data-en="Join our team in operations, planning, outreach, and more. Help us grow With In World together.">サービス運営・企画・広報など、チームの一員として一緒にWith In Worldを育てましょう。</p>
+        <p data-ja="サービス運営・企画・広報など、チームの一員として一緒にUnicationを育てましょう。" data-en="Join our team in operations, planning, outreach, and more. Help us grow Unication together.">サービス運営・企画・広報など、チームの一員として一緒にUnicationを育てましょう。</p>
         <div class="join-steps">
           <div class="join-step">
             <div class="step-circle">1</div>
@@ -921,9 +923,9 @@
 </section>
 
 <footer>
-  <div class="foot-logo">With In <span>World</span></div>
+  <div class="foot-logo"><span class="uni">Uni</span><span class="cation">cation</span></div>
   <p data-ja="「学びたい。」を我慢しない。" data-en="Don't hold back your desire to learn.">「学びたい。」を我慢しない。</p>
-  <p style="margin-top:16px;" data-ja="© 2025 With In World. All rights reserved." data-en="© 2025 With In World. All rights reserved.">© 2025 With In World. All rights reserved.</p>
+  <p style="margin-top:16px;" data-ja="© 2025 Unication. All rights reserved." data-en="© 2025 Unication. All rights reserved.">© 2025 Unication. All rights reserved.</p>
 </footer>
 
 <script>
