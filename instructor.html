@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>講師募集 — With In World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A6E;
+    --blue: #2B5BA8;
+    --blue-mid: #3A6FC5;
+    --blue-light: #5B8DD9;
+    --blue-pale: #D6E4F7;
+    --blue-bg: #EEF4FC;
+    --white: #FFFFFF;
+    --off-white: #F5F8FE;
+    --text-dark: #1a2a4a;
+    --text-mid: #3a5080;
+    --text-light: #7a9ac0;
+    --yellow: #F5C842;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', 'DM Sans', sans-serif;
+    background: var(--white); color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  .lang-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--blue-pale);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+  }
+  .logo-nav {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700; font-size: 1.3rem;
+    color: var(--navy); letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .logo-nav span { color: var(--blue-mid); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .lang-toggle {
+    display: flex; gap: 4px; background: var(--blue-bg);
+    border-radius: 20px; padding: 3px;
+  }
+  .lang-btn {
+    border: none; cursor: pointer; border-radius: 16px;
+    padding: 5px 14px; font-size: 0.8rem; font-weight: 600;
+    transition: all 0.2s; background: transparent; color: var(--text-mid);
+  }
+  .lang-btn.active { background: var(--navy); color: white; }
+  .back-btn {
+    color: var(--text-mid); font-size: 0.85rem;
+    text-decoration: none; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .back-btn:hover { color: var(--navy); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex; align-items: center;
+    padding: 120px 40px 80px;
+    position: relative; overflow: hidden;
+  }
+  /* Animated background particles */
+  .hero-bg {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    to { transform: translateY(-200px) rotate(360deg); opacity: 0; }
+  }
+  .hero-inner {
+    max-width: 900px; margin: 0 auto; width: 100%;
+    text-align: center; position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(255,255,255,0.1); color: var(--blue-light);
+    font-size: 0.75rem; font-weight: 700; padding: 6px 16px;
+    border-radius: 20px; margin-bottom: 28px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.15);
+    animation: fadeInUp 0.6s ease both;
+  }
+  .hero-catchphrase {
+    font-family: 'Playfair Display', 'Noto Sans JP', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: white; line-height: 1.25; margin-bottom: 24px;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+  .hero-catchphrase .accent { color: var(--yellow); }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.7); line-height: 1.9;
+    margin-bottom: 48px; font-weight: 300;
+    animation: fadeInUp 0.6s 0.2s ease both;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--yellow); color: var(--navy);
+    border: none; padding: 16px 36px; border-radius: 32px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.25s;
+    box-shadow: 0 8px 28px rgba(245,200,66,0.35);
+    animation: fadeInUp 0.6s 0.3s ease both;
+    text-decoration: none;
+  }
+  .hero-cta:hover {
+    background: white; transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(245,200,66,0.4);
+  }
+
+  /* scroll arrow */
+  .scroll-hint {
+    margin-top: 60px; color: rgba(255,255,255,0.4);
+    font-size: 0.8rem; animation: fadeInUp 0.6s 0.5s ease both;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .scroll-arrow {
+    width: 24px; height: 24px; border-right: 2px solid rgba(255,255,255,0.3);
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    transform: rotate(45deg); margin-top: 4px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(6px); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== BACKGROUND STORY ===== */
+  .story-section { padding: 100px 40px; background: var(--off-white); }
+  .story-inner { max-width: 1000px; margin: 0 auto; }
+  .story-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center; margin-top: 60px;
+  }
+  .story-text-block { }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--blue-mid); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', 'Noto Sans JP', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: var(--navy); line-height: 1.35; margin-bottom: 20px;
+  }
+  .story-body {
+    font-size: 0.95rem; color: var(--text-mid); line-height: 2;
+    font-weight: 300;
+  }
+  .story-body p { margin-bottom: 16px; }
+  .story-visual {
+    background: var(--navy); border-radius: 20px; padding: 36px;
+    color: white; position: relative; overflow: hidden;
+  }
+  .story-visual::before {
+    content: '"';
+    position: absolute; top: -10px; left: 20px;
+    font-size: 8rem; font-family: 'Playfair Display', serif;
+    color: rgba(255,255,255,0.06); line-height: 1;
+  }
+  .story-quote {
+    font-family: 'Playfair Display', 'Noto Sans JP', serif;
+    font-size: 1.3rem; line-height: 1.7; color: white;
+    position: relative; z-index: 1; margin-bottom: 20px;
+  }
+  .story-quote .hl { color: var(--yellow); }
+  .story-mission {
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 20px; margin-top: 24px;
+  }
+  .story-mission-label {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--blue-light);
+    margin-bottom: 8px;
+  }
+  .story-mission p {
+    font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.7;
+  }
+
+  /* ===== BENEFITS ===== */
+  .benefits-section { padding: 100px 40px; background: white; }
+  .benefits-inner { max-width: 1000px; margin: 0 auto; }
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+    margin-top: 56px;
+  }
+  .benefit-card {
+    border-radius: 20px; padding: 36px 32px;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s;
+  }
+  .benefit-card.visible { opacity: 1; transform: translateY(0); }
+  .benefit-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 16px 48px rgba(30,58,110,0.16);
+  }
+  .benefit-card.primary {
+    background: var(--navy); color: white;
+    grid-column: span 2;
+  }
+  .benefit-card.light {
+    background: var(--blue-bg);
+    border: 1px solid var(--blue-pale);
+  }
+  .benefit-card.accent-yellow {
+    background: linear-gradient(135deg, #fffbea 0%, #fff3c4 100%);
+    border: 1px solid #f0d060;
+  }
+  .benefit-icon {
+    font-size: 2.4rem; margin-bottom: 16px;
+    display: block;
+  }
+  .benefit-card.primary .benefit-icon { filter: none; }
+  .benefit-tag {
+    display: inline-block;
+    font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 4px 10px;
+    border-radius: 10px; margin-bottom: 12px;
+  }
+  .benefit-card.primary .benefit-tag {
+    background: rgba(245,200,66,0.2); color: var(--yellow);
+  }
+  .benefit-card.light .benefit-tag {
+    background: var(--blue-pale); color: var(--blue);
+  }
+  .benefit-card.accent-yellow .benefit-tag {
+    background: rgba(200,150,0,0.15); color: #7a5c00;
+  }
+  .benefit-card h3 {
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4;
+  }
+  .benefit-card.primary h3 { color: white; }
+  .benefit-card.light h3 { color: var(--navy); }
+  .benefit-card.accent-yellow h3 { color: #5a3e00; }
+  .benefit-card p {
+    font-size: 0.88rem; line-height: 1.85; font-weight: 300;
+  }
+  .benefit-card.primary p { color: rgba(255,255,255,0.8); }
+  .benefit-card.light p { color: var(--text-mid); }
+  .benefit-card.accent-yellow p { color: #6b4f00; }
+
+  /* primary card inner layout */
+  .benefit-primary-inner {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+    align-items: center;
+  }
+  .benefit-primary-visual {
+    background: rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 24px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .cert-row {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 16px;
+  }
+  .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cert-text { font-size: 0.82rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+  .cert-text strong { color: white; font-weight: 700; display: block; }
+
+  /* chat bubble inside benefit */
+  .benefit-chat { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .bc-msg { max-width: 88%; }
+  .bc-msg.right { align-self: flex-end; }
+  .bc-bubble {
+    padding: 9px 14px; border-radius: 16px;
+    font-size: 0.78rem; line-height: 1.6;
+  }
+  .bc-msg.left .bc-bubble {
+    background: var(--blue-pale); color: var(--navy);
+    border-bottom-left-radius: 4px;
+  }
+  .bc-msg.right .bc-bubble {
+    background: var(--yellow); color: var(--navy); font-weight: 600;
+    border-bottom-right-radius: 4px;
+  }
+  .bc-label { font-size: 0.65rem; color: var(--text-light); margin-bottom: 3px; padding: 0 4px; }
+  .bc-msg.right .bc-label { color: rgba(30,58,110,0.5); text-align: right; }
+  .bc-msg.right .bc-bubble { color: var(--navy); }
+
+  /* ===== WHO WE SEEK ===== */
+  .who-section { padding: 100px 40px; background: var(--blue-bg); }
+  .who-inner { max-width: 1000px; margin: 0 auto; }
+  .who-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    margin-top: 48px;
+  }
+  .who-card {
+    background: white; border-radius: 16px; padding: 28px;
+    display: flex; gap: 16px; align-items: flex-start;
+    border: 1px solid var(--blue-pale);
+    transition: transform 0.3s, box-shadow 0.3s;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s;
+  }
+  .who-card.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .who-card:hover {
+    box-shadow: 0 8px 28px rgba(30,58,110,0.12);
+    transform: translateY(-3px) !important;
+  }
+  .who-emoji { font-size: 2rem; flex-shrink: 0; }
+  .who-card-text h4 {
+    font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+  }
+  .who-card-text p {
+    font-size: 0.85rem; color: var(--text-mid); line-height: 1.7; font-weight: 300;
+  }
+
+  /* ===== HOW TO JOIN ===== */
+  .join-section { padding: 100px 40px; background: white; }
+  .join-inner { max-width: 800px; margin: 0 auto; }
+
+  /* ===== ACTIVITY ROLES ===== */
+  .roles-section { padding: 80px 40px; background: var(--navy); }
+  .roles-inner { max-width: 1000px; margin: 0 auto; }
+  .roles-section .section-label { color: var(--blue-light); }
+  .roles-section .section-title { color: white; margin-bottom: 12px; }
+  .roles-intro { font-size: 0.95rem; color: rgba(255,255,255,0.72); line-height: 1.9; font-weight: 300; max-width: 640px; margin-bottom: 48px; }
+  .roles-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    margin-bottom: 40px;
+  }
+  .role-card {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px; padding: 24px 26px;
+    transition: background 0.3s, transform 0.3s;
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s;
+  }
+  .role-card.visible { opacity: 1; transform: translateY(0); }
+  .role-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px) !important; }
+  .role-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+  .role-card h4 { font-size: 0.95rem; font-weight: 700; color: white; margin-bottom: 6px; }
+  .role-card p { font-size: 0.83rem; color: rgba(255,255,255,0.72); line-height: 1.75; font-weight: 300; }
+  .roles-notes {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px;
+  }
+  .roles-note-item {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .roles-note-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .roles-note-text h5 { font-size: 0.82rem; font-weight: 700; color: var(--yellow); margin-bottom: 4px; }
+  .roles-note-text p { font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.65; font-weight: 300; }
+  .flow-section { padding: 100px 40px; background: var(--off-white); }
+  .flow-inner { max-width: 800px; margin: 0 auto; }
+  .flow-timeline {
+    display: flex; flex-direction: column; gap: 0;
+    margin-top: 56px; position: relative;
+  }
+  .flow-timeline::before {
+    content: '';
+    position: absolute; left: 28px; top: 40px; bottom: 40px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--blue-pale));
+  }
+  .flow-timeline-item {
+    display: flex; gap: 28px; align-items: flex-start;
+    padding-bottom: 40px; position: relative;
+    opacity: 0; transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .flow-timeline-item:last-child { padding-bottom: 0; }
+  .flow-timeline-item.visible { opacity: 1; transform: translateX(0); }
+  .flow-step-circle {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--navy); color: white;
+    font-size: 1.2rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; position: relative; z-index: 1;
+    box-shadow: 0 0 0 6px var(--off-white), 0 0 0 8px var(--blue-pale);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .flow-timeline-item:hover .flow-step-circle {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 6px var(--off-white), 0 0 0 10px var(--blue-mid);
+  }
+  .flow-step-body {
+    background: white; border-radius: 16px; padding: 24px 28px;
+    flex: 1; border: 1px solid var(--blue-pale);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-top: 8px;
+  }
+  .flow-timeline-item:hover .flow-step-body {
+    border-color: var(--blue-mid);
+    box-shadow: 0 6px 24px rgba(30,58,110,0.1);
+  }
+  .flow-step-num {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--blue-mid); margin-bottom: 6px;
+  }
+  .flow-step-title {
+    font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 8px;
+  }
+  .flow-step-desc {
+    font-size: 0.86rem; color: var(--text-mid); line-height: 1.8; font-weight: 300;
+  }
+  .join-types { display: flex; gap: 24px; margin-top: 48px; flex-wrap: wrap; }
+  .join-type {
+    flex: 1; min-width: 280px;
+    border: 2px solid var(--blue-pale); border-radius: 20px; padding: 36px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .join-type:hover { border-color: var(--blue); transform: translateY(-4px); }
+  .join-type-badge {
+    display: inline-block;
+    background: var(--blue-bg); color: var(--blue);
+    font-size: 0.7rem; font-weight: 700; padding: 4px 10px;
+    border-radius: 12px; margin-bottom: 16px;
+  }
+  .join-type h3 {
+    font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 12px;
+  }
+  .join-type p {
+    font-size: 0.88rem; color: var(--text-mid); line-height: 1.8; font-weight: 300;
+    margin-bottom: 20px;
+  }
+  .join-steps { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .join-step {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .step-circle {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--navy); color: white;
+    font-size: 0.7rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-text { font-size: 0.85rem; color: var(--text-mid); line-height: 1.6; padding-top: 3px; }
+  .join-btn {
+    display: inline-block;
+    background: var(--navy); color: white;
+    border: none; padding: 12px 24px; border-radius: 24px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.25s; text-decoration: none;
+  }
+  .join-btn:hover { background: var(--blue); transform: translateY(-2px); }
+  .join-btn.yellow {
+    background: var(--yellow); color: var(--navy);
+  }
+  .join-btn.yellow:hover { background: #e8b800; }
+  .volunteer-tag {
+    position: absolute; top: 16px; right: 16px;
+    background: var(--blue-pale); color: var(--blue);
+    font-size: 0.68rem; font-weight: 700; padding: 4px 10px; border-radius: 10px;
+  }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    padding: 100px 40px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .final-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .final-big {
+    font-family: 'Playfair Display', 'Noto Sans JP', serif;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    color: white; line-height: 1.3; margin-bottom: 20px;
+  }
+  .final-big .hl { color: var(--yellow); font-style: italic; }
+  .final-body {
+    font-size: 1rem; color: rgba(255,255,255,0.7);
+    line-height: 1.9; margin-bottom: 40px; font-weight: 300;
+  }
+  .final-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-white {
+    background: white; color: var(--navy);
+    border: none; padding: 14px 32px; border-radius: 28px;
+    font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: all 0.25s; text-decoration: none;
+    display: inline-block;
+  }
+  .btn-white:hover { background: var(--yellow); transform: translateY(-2px); }
+  .btn-outline-white {
+    background: transparent; color: white;
+    border: 2px solid rgba(255,255,255,0.4); padding: 12px 28px;
+    border-radius: 28px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; font-family: inherit; transition: all 0.25s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-outline-white:hover { border-color: white; background: rgba(255,255,255,0.08); }
+  .final-contact {
+    margin-top: 40px; color: rgba(255,255,255,0.5); font-size: 0.85rem;
+  }
+  .final-contact a { color: var(--blue-light); text-decoration: none; font-weight: 600; }
+
+  footer {
+    background: #0e1f42; padding: 40px;
+    text-align: center; color: rgba(255,255,255,0.4); font-size: 0.82rem;
+  }
+  .foot-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.2rem; font-weight: 700; color: rgba(255,255,255,0.8);
+    margin-bottom: 12px;
+  }
+  .foot-logo span { color: var(--blue-light); }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .story-grid, .who-grid { grid-template-columns: 1fr; }
+    .join-types { flex-direction: column; }
+    section, .story-section, .road-section, .who-section, .join-section, .final-cta {
+      padding: 60px 20px;
+    }
+    .lang-bar { padding: 0 20px; }
+    .hero { padding: 90px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="lang-bar">
+  <a href="index.html" class="logo-nav">With In <span>World</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="back-btn" data-ja="← ホームへ" data-en="← Home">← ホームへ</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="ja">JP</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- PARTICLES -->
+<div id="particles-container"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow" data-ja="Missionに共感する同志 募集中！" data-en="Seeking kindred spirits who share our Mission!">Missionに共感する同志 募集中！</div>
+    <h1 class="hero-catchphrase">
+      <span data-ja="誰もが学べる世界を、" data-en="Build a world where">誰もが学べる世界を、</span><br>
+      <span class="accent" data-ja="あなたと一緒に作りたい。" data-en="anyone can learn — with you.">あなたと一緒に作りたい。</span>
+    </h1>
+    <p class="hero-sub" data-ja="決まった活動時間なし。隙間時間に気軽にメッセージ送信でOK！<br>あなたの知識と経験が、世界の誰かの学びになります。" data-en="No set schedule. Reply whenever you have a spare moment!<br>Your knowledge and experience becomes someone's learning, somewhere in the world.">決まった活動時間なし。隙間時間に気軽にメッセージ送信でOK！<br>あなたの知識と経験が、世界の誰かの学びになります。</p>
+    <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="hero-cta" data-ja="今すぐ参加する →" data-en="Join Now →">今すぐ参加する →</a>
+    <div class="scroll-hint">
+      <span data-ja="スクロールして詳細を見る" data-en="Scroll to learn more">スクロールして詳細を見る</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY ROLES -->
+<section class="roles-section">
+  <div class="roles-inner">
+    <div class="section-label" data-ja="活動内容" data-en="Activities">活動内容</div>
+    <h2 class="section-title reveal" data-ja="講師として、できること。" data-en="What you can do as an instructor.">講師として、できること。</h2>
+    <p class="roles-intro reveal" data-ja="基本はチャットでの対応ですが、オンラインでの日本語会話指導もあります。定期的にイベント講師の募集もあり、さまざまな形で世界の学びに貢献できます。" data-en="The primary format is chat-based support, but online Japanese conversation instruction is also available. We regularly recruit event instructors, so you can contribute to global learning in a variety of ways.">基本はチャットでの対応ですが、オンラインでの日本語会話指導もあります。定期的にイベント講師の募集もあり、さまざまな形で世界の学びに貢献できます。</p>
+
+    <div class="roles-grid">
+      <div class="role-card">
+        <span class="role-icon">📖</span>
+        <h4 data-ja="教科指導（学校での学習補助）" data-en="Subject Instruction (School Learning Support)">教科指導（学校での学習補助）</h4>
+        <p data-ja="数学・理科・社会など、学校の教科学習をチャットでサポート。わからない問題を一緒に解決します。" data-en="Support school subjects like math, science, and social studies via chat. Solve problems together with learners.">数学・理科・社会など、学校の教科学習をチャットでサポート。わからない問題を一緒に解決します。</p>
+      </div>
+      <div class="role-card">
+        <span class="role-icon">🗾</span>
+        <h4 data-ja="日本語会話指導" data-en="Japanese Conversation Instruction">日本語会話指導</h4>
+        <p data-ja="海外からの学習者に向けた日本語会話のサポート。チャットまたはオンラインで、生きた日本語を伝えます。" data-en="Japanese conversation support for learners from abroad. Teach living Japanese via chat or online.">海外からの学習者に向けた日本語会話のサポート。チャットまたはオンラインで、生きた日本語を伝えます。</p>
+      </div>
+      <div class="role-card">
+        <span class="role-icon">📝</span>
+        <h4 data-ja="日本語文法指導（教材に沿って）" data-en="Japanese Grammar Instruction (Curriculum-based)">日本語文法指導（教材に沿って）</h4>
+        <p data-ja="教材に沿って日本語の文法をわかりやすく解説。文法の基礎から応用まで丁寧に対応します。" data-en="Explain Japanese grammar clearly based on curriculum materials. Handle everything from basics to advanced grammar.">教材に沿って日本語の文法をわかりやすく解説。文法の基礎から応用まで丁寧に対応します。</p>
+      </div>
+      <div class="role-card">
+        <span class="role-icon">🗣️</span>
+        <h4 data-ja="英会話指導" data-en="English Conversation Instruction">英会話指導</h4>
+        <p data-ja="英語を学びたい人へのチャットサポート。日常会話から試験対策まで、幅広いレベルに対応します。" data-en="Chat support for those learning English. Wide range of levels from everyday conversation to exam prep.">英語を学びたい人へのチャットサポート。日常会話から試験対策まで、幅広いレベルに対応します。</p>
+      </div>
+    </div>
+
+    <div class="roles-notes reveal">
+      <div class="roles-note-item">
+        <div class="roles-note-icon">💬</div>
+        <div class="roles-note-text">
+          <h5 data-ja="チャット中心の活動" data-en="Chat-based Activities">チャット中心の活動</h5>
+          <p data-ja="基本はチャットでの対応。スマホひとつで、いつでも参加できます。" data-en="Primarily chat-based. Participate anytime from your smartphone.">基本はチャットでの対応。スマホひとつで、いつでも参加できます。</p>
+        </div>
+      </div>
+      <div class="roles-note-item">
+        <div class="roles-note-icon">🎤</div>
+        <div class="roles-note-text">
+          <h5 data-ja="イベント講師の機会" data-en="Event Instructor Opportunities">イベント講師の機会</h5>
+          <p data-ja="定期的にイベント講師を募集。登壇して世界に発信しましょう。" data-en="We regularly recruit event instructors. Take the stage and share with the world.">定期的にイベント講師を募集。登壇して世界に発信しましょう。</p>
+        </div>
+      </div>
+      <div class="roles-note-item">
+        <div class="roles-note-icon">⭐</div>
+        <div class="roles-note-text">
+          <h5 data-ja="活動でポイントがたまる" data-en="Earn Points Through Activity">活動でポイントがたまる</h5>
+          <p data-ja="活動に応じてポイントが貯まり、英会話受講などの特典と交換できます。" data-en="Earn points through your activities and exchange them for perks like English conversation lessons.">活動に応じてポイントが貯まり、英会話受講などの特典と交換できます。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY / BACKGROUND -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="section-label" data-ja="立ち上げの背景" data-en="Our Origin Story">立ち上げの背景</div>
+    <h2 class="section-title reveal" data-ja="なぜ、With In Worldを<br>始めたのか。" data-en="Why we started<br>With In World.">なぜ、With In Worldを<br>始めたのか。</h2>
+    <div class="story-grid">
+      <div class="story-text-block">
+        <div class="story-body reveal">
+          <p data-ja="世界には、「学びたいものを十分に学べない」「学ぶ環境が整っていない」人々がたくさんいます。" data-en="There are countless people in the world who cannot fully learn what they want to, or who lack the environment to learn at all.">世界には、「学びたいものを十分に学べない」「学ぶ環境が整っていない」人々がたくさんいます。</p>
+          <p data-ja="言語の壁、質問できる環境の不足、思考機会の減少——。そうした教育格差に、テクノロジーと人の力で向き合いたいと思ったことが、このサービスの出発点です。" data-en="Language barriers, the lack of environments to ask questions, fewer opportunities for deep thinking — the desire to address this education gap through technology and human connection is where this service began.">言語の壁、質問できる環境の不足、思考機会の減少——。そうした教育格差に、テクノロジーと人の力で向き合いたいと思ったことが、このサービスの出発点です。</p>
+          <p data-ja="「学びや経験の歩みを基盤に、学ぶすべての人の可能性を広げ、深める。その未来の先にWell-beingな世界が待っている。」——そう信じ、世界でつながるチャット型学習サポートから私たちのチャレンジは始まります。" data-en='"Building on each step of learning and experience, expanding and deepening the potential of all who wish to learn — a Well-being world awaits at the end of that journey." With this belief, our challenge begins with a globally-connected, chat-based learning support platform.'>「学びや経験の歩みを基盤に、学ぶすべての人の可能性を広げ、深める。その未来の先にWell-beingな世界が待っている。」——そう信じ、世界でつながるチャット型学習サポートから私たちのチャレンジは始まります。</p>
+        </div>
+      </div>
+      <div class="story-visual reveal">
+        <div class="story-quote">
+          "<span class="hl" data-ja="誰もが学べる世界を、<br>あなたと一緒に作りたい。" data-en="We want to build a world<br>where anyone can learn —<br>with you.">誰もが学べる世界を、<br>あなたと一緒に作りたい。</span>"
+        </div>
+        <div class="story-mission">
+          <div class="story-mission-label">Mission</div>
+          <p data-ja="世界中の人々へ様々な学びの機会を提供する。" data-en="Provide diverse learning opportunities to people all around the world.">世界中の人々へ様々な学びの機会を提供する。</p>
+        </div>
+        <div class="story-mission" style="margin-top:12px;">
+          <div class="story-mission-label">Vision</div>
+          <p data-ja="Well-beingを追求する。" data-en="Pursue Well-being.">Well-beingを追求する。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS FOR INSTRUCTORS -->
+<section class="benefits-section">
+  <div class="benefits-inner">
+    <div class="section-label" data-ja="講師として参加する特典" data-en="Instructor Benefits">講師として参加する特典</div>
+    <h2 class="section-title reveal" data-ja="教えながら、<br>あなたも成長できる。" data-en="Teach — and grow<br>yourself at the same time.">教えながら、<br>あなたも成長できる。</h2>
+    <p class="reveal" style="font-size:0.95rem;color:var(--text-mid);line-height:1.9;font-weight:300;max-width:620px;margin-bottom:0;" data-ja="With In Worldでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。" data-en="Your time with With In World is a rich learning opportunity not just for learners, but for you as an instructor too.">With In Worldでの活動は、学習者だけでなく、講師自身にとっても豊かな学びの場です。</p>
+
+    <div class="benefits-grid">
+
+      <!-- Certificate — full-width primary card -->
+      <div class="benefit-card primary benefit-card reveal">
+        <div class="benefit-primary-inner">
+          <div>
+            <span class="benefit-icon">📜</span>
+            <div class="benefit-tag" data-ja="公式証明書" data-en="Official Certificate">公式証明書</div>
+            <h3 data-ja="ボランティア証明書を発行します" data-en="Receive an Official Volunteer Certificate">ボランティア証明書を発行します</h3>
+            <p data-ja="With In Worldよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。" data-en="With In World will issue an official volunteer certificate — proof of your international contribution for job hunting, university applications, and personal achievements.">With In Worldよりボランティア証明書を発行します。就職活動・進学・自己実績のアピールとして、あなたの国際的な活動を証明します。</p>
+          </div>
+          <div class="benefit-primary-visual">
+            <div class="cert-row">
+              <div class="cert-icon">✅</div>
+              <div class="cert-text">
+                <strong data-ja="就職・進学活動に活用できる" data-en="Useful for job hunting & university applications">就職・進学活動に活用できる</strong>
+                <span data-ja="国際的なボランティア活動の実績として証明します" data-en="Official proof of your international volunteer activities">国際的なボランティア活動の実績として証明します</span>
+              </div>
+            </div>
+            <div class="cert-row">
+              <div class="cert-icon">🌐</div>
+              <div class="cert-text">
+                <strong data-ja="日英両言語で発行" data-en="Issued in both Japanese and English">日英両言語で発行</strong>
+                <span data-ja="日本語・英語の両方でご提供します" data-en="Available in both Japanese and English">日本語・英語の両方でご提供します</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Japanese conversation -->
+      <div class="benefit-card light benefit-card reveal">
+        <span class="benefit-icon">🗾</span>
+        <div class="benefit-tag" data-ja="日本語指導の機会" data-en="Japanese Instruction Opportunity">日本語指導の機会</div>
+        <h3 data-ja="日本語会話をオンラインで指導する" data-en="Teach Japanese Conversation Online">日本語会話をオンラインで指導する</h3>
+        <p data-ja="海外からの学習者に向けて、日本語会話をチャットでサポート。ネイティブだからこそ伝えられる「生きた日本語」を届けることができます。教科指導に限らず、日常会話・文化紹介なども大歓迎です。" data-en="Support learners from overseas with Japanese conversation via chat. As a native speaker, you can share the kind of living Japanese that only a native can convey — everyday conversation and cultural introductions are warmly welcome alongside academic instruction.">海外からの学習者に向けて、日本語会話をチャットでサポート。ネイティブだからこそ伝えられる「生きた日本語」を届けることができます。教科指導に限らず、日常会話・文化紹介なども大歓迎です。</p>
+        <div class="benefit-chat">
+          <div class="bc-msg left">
+            <div class="bc-label" data-ja="海外からの学習者" data-en="Learner from abroad">海外からの学習者</div>
+            <div class="bc-bubble" data-ja="「いただきます」はどういう意味ですか？" data-en="What does 'itadakimasu' mean?">「いただきます」はどういう意味ですか？</div>
+          </div>
+          <div class="bc-msg right">
+            <div class="bc-bubble" data-ja="食事の前に感謝を伝える言葉です！食べ物の命や作ってくれた人への敬意を表します 🍱" data-en="It's a word of gratitude before eating — showing respect for the food's life and those who made it 🍱">食事の前に感謝を伝える言葉です！食べ物の命や作ってくれた人への敬意を表します 🍱</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event instructor -->
+      <div class="benefit-card light benefit-card reveal">
+        <span class="benefit-icon">🎤</span>
+        <div class="benefit-tag" data-ja="イベント登壇" data-en="Event Participation">イベント登壇</div>
+        <h3 data-ja="イベント講師として活躍できる" data-en="Become an Event Instructor">イベント講師として活躍できる</h3>
+        <p data-ja="With In Worldが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。" data-en="Participate as an instructor or speaker in online events and workshops organized by With In World. Share your expertise and personal story with the world and forge new connections. There will also be opportunities to join international education programs in the future.">With In Worldが企画するオンラインイベントや勉強会に、講師・登壇者として参加できます。自分の専門分野や体験談を世界に発信し、新たなつながりを生み出しましょう。将来的には国際教育プログラムへの参加機会もあります。</p>
+      </div>
+
+      <!-- English conversation benefit -->
+      <div class="benefit-card accent-yellow benefit-card reveal" style="grid-column: span 2;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center;">
+          <div>
+            <span class="benefit-icon">🗣️</span>
+            <div class="benefit-tag" data-ja="講師特典" data-en="Instructor Perk">講師特典</div>
+            <h3 data-ja="英会話の機会が生まれます" data-en="English Conversation Opportunities Await">英会話の機会が生まれます</h3>
+            <p data-ja="世界中の学習者・講師と交流するなかで、自然と英語を使う機会が増えます。英語圏の学習者へのサポートや、海外メンターとのやり取りを通じて、あなた自身の英語力・国際感覚も磨かれていきます。教えることが、そのまま学ぶことにつながります。" data-en="As you interact with learners and instructors from around the world, you'll naturally find more opportunities to use English. Supporting English-speaking learners and communicating with overseas mentors will sharpen your own English skills and international awareness. Teaching becomes learning.">世界中の学習者・講師と交流するなかで、自然と英語を使う機会が増えます。英語圏の学習者へのサポートや、海外メンターとのやり取りを通じて、あなた自身の英語力・国際感覚も磨かれていきます。教えることが、そのまま学ぶことにつながります。</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:14px 18px;font-size:0.85rem;color:#5a3e00;line-height:1.7;">
+              <span style="font-weight:700;display:block;margin-bottom:4px;" data-ja="🌏 国際的な交流" data-en="🌏 International exchange">🌏 国際的な交流</span>
+              <span data-ja="英語圏・多言語圏の学習者と日常的にやり取りできます" data-en="Interact daily with learners from English-speaking and multilingual regions">英語圏・多言語圏の学習者と日常的にやり取りできます</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:14px 18px;font-size:0.85rem;color:#5a3e00;line-height:1.7;">
+              <span style="font-weight:700;display:block;margin-bottom:4px;" data-ja="📈 英語力・表現力の向上" data-en="📈 Improve your English & communication skills">📈 英語力・表現力の向上</span>
+              <span data-ja="実際の会話を通じて、自然に英語が上達します" data-en="Your English naturally improves through real conversations">実際の会話を通じて、自然に英語が上達します</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.7);border-radius:12px;padding:14px 18px;font-size:0.85rem;color:#5a3e00;line-height:1.7;">
+              <span style="font-weight:700;display:block;margin-bottom:4px;" data-ja="🤝 海外メンターとのつながり" data-en="🤝 Connect with overseas mentors">🤝 海外メンターとのつながり</span>
+              <span data-ja="世界中の教育者・メンターと出会い、グローバルな視野が広がります" data-en="Meet educators and mentors worldwide and broaden your global perspective">世界中の教育者・メンターと出会い、グローバルな視野が広がります</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SEEK -->
+<section class="who-section">
+  <div class="who-inner">
+    <div class="section-label" data-ja="こんな方を求めています" data-en="We're looking for people like you">こんな方を求めています</div>
+    <h2 class="section-title reveal" data-ja="Missionに共感する、<br>すべての人へ。" data-en="For everyone who resonates<br>with our Mission.">Missionに共感する、<br>すべての人へ。</h2>
+    <div class="who-grid">
+      <div class="who-card">
+        <div class="who-emoji">🚀</div>
+        <div class="who-card-text">
+          <h4 data-ja="チャレンジしたい" data-en="Want to challenge yourself">チャレンジしたい</h4>
+          <p data-ja="新しいことに挑戦したい。立ち上げ期だからこそ、あなたのアイデアが形になります。" data-en="Ready to try something new. Because we're in launch phase, your ideas can take shape.">新しいことに挑戦したい。立ち上げ期だからこそ、あなたのアイデアが形になります。</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">🎪</div>
+        <div class="who-card-text">
+          <h4 data-ja="イベントを企画したい" data-en="Want to plan events">イベントを企画したい</h4>
+          <p data-ja="学びに関わるイベントやプログラムの企画・運営に携わりたい方。" data-en="Want to be involved in planning and running events and programs related to learning.">学びに関わるイベントやプログラムの企画・運営に携わりたい方。</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">🌱</div>
+        <div class="who-card-text">
+          <h4 data-ja="社会課題に向き合いたい" data-en="Want to tackle social issues">社会課題に向き合いたい</h4>
+          <p data-ja="教育格差や国際教育といった社会課題に、具体的なアクションで貢献したい方。" data-en="Want to make concrete contributions to social issues like education gaps and international education.">教育格差や国際教育といった社会課題に、具体的なアクションで貢献したい方。</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">💡</div>
+        <div class="who-card-text">
+          <h4 data-ja="誰かのために動きたい" data-en="Want to act for others">誰かのために動きたい</h4>
+          <p data-ja="自分の知識・経験・スキルを、学びを必要とする誰かのために使いたい方。" data-en="Want to use your knowledge, experience, and skills for someone who needs to learn.">自分の知識・経験・スキルを、学びを必要とする誰かのために使いたい方。</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">🌐</div>
+        <div class="who-card-text">
+          <h4 data-ja="世界とつながりたい" data-en="Want to connect globally">世界とつながりたい</h4>
+          <p data-ja="国境を越えた交流や、異文化とのつながりを大切にしたい方。" data-en="Value cross-border exchange and connections with different cultures.">国境を越えた交流や、異文化とのつながりを大切にしたい方。</p>
+        </div>
+      </div>
+      <div class="who-card">
+        <div class="who-emoji">📖</div>
+        <div class="who-card-text">
+          <h4 data-ja="教えることが好きな方" data-en="Love teaching">教えることが好きな方</h4>
+          <p data-ja="教科・言語・経験など、あなたが得意なことを世界の学習者に伝えてください。" data-en="Share your expertise in subjects, languages, or life experience with learners around the world.">教科・言語・経験など、あなたが得意なことを世界の学習者に伝えてください。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITY FLOW -->
+<section class="flow-section">
+  <div class="flow-inner">
+    <div class="section-label" data-ja="申し込みから活動開始まで" data-en="From Application to Start">申し込みから活動開始まで</div>
+    <h2 class="section-title reveal" data-ja="参加までの流れ" data-en="How to Get Started">参加までの流れ</h2>
+    <p class="reveal" style="font-size:0.95rem;color:var(--text-mid);line-height:1.9;font-weight:300;max-width:560px;" data-ja="フォーム送信から活動開始まで、スムーズにサポートします。" data-en="We'll smoothly guide you from form submission to your first activity.">フォーム送信から活動開始まで、スムーズにサポートします。</p>
+    <div class="flow-timeline">
+
+      <div class="flow-timeline-item">
+        <div class="flow-step-circle">1</div>
+        <div class="flow-step-body">
+          <div class="flow-step-num" data-ja="STEP 1" data-en="STEP 1">STEP 1</div>
+          <div class="flow-step-title" data-ja="フォームを送信" data-en="Submit the Form">フォームを送信</div>
+          <div class="flow-step-desc" data-ja="下記のフォームに必要事項を入力して送信してください。氏名・参加の動機・得意な科目や言語などをお聞きします。" data-en="Fill in the required details in the form below and submit. We'll ask for your name, motivation for joining, and subjects or languages you're confident in.">下記のフォームに必要事項を入力して送信してください。氏名・参加の動機・得意な科目や言語などをお聞きします。</div>
+        </div>
+      </div>
+
+      <div class="flow-timeline-item">
+        <div class="flow-step-circle">2</div>
+        <div class="flow-step-body">
+          <div class="flow-step-num" data-ja="STEP 2" data-en="STEP 2">STEP 2</div>
+          <div class="flow-step-title" data-ja="担当者との面談（相互理解）" data-en="Interview with Our Team">担当者との面談（相互理解）</div>
+          <div class="flow-step-desc" data-ja="フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、With In Worldのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。" data-en="After submitting, our team will reach out to you. Through a short online meeting, we'll share With In World's vision and activities, and listen to your thoughts and wishes.">フォーム送信後、担当者よりご連絡いたします。オンラインでの短い面談を通じて、With In Worldのビジョンや活動内容をお伝えするとともに、あなたの想いや希望をお聞かせください。</div>
+        </div>
+      </div>
+
+      <div class="flow-timeline-item">
+        <div class="flow-step-circle">✓</div>
+        <div class="flow-step-body">
+          <div class="flow-step-num" data-ja="STEP 3" data-en="STEP 3">STEP 3</div>
+          <div class="flow-step-title" data-ja="アカウント作成・活動開始" data-en="Account Setup & Start">アカウント作成・活動開始</div>
+          <div class="flow-step-desc" data-ja="面談後、チャットサービスのアカウントを作成していただきます。準備が整い次第、いつでも活動を開始できます。決まったシフトはないので、隙間時間に気軽にメッセージを送るだけでOKです。" data-en="After the interview, you'll create your account on the chat service. Once ready, you can start anytime. No fixed schedule — just send messages whenever you have a spare moment.">面談後、チャットサービスのアカウントを作成していただきます。準備が整い次第、いつでも活動を開始できます。決まったシフトはないので、隙間時間に気軽にメッセージを送るだけでOKです。</div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="join-btn yellow" data-ja="フォームを送信する →" data-en="Submit the Form →">フォームを送信する →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO JOIN -->
+<section class="join-section" id="join">
+  <div class="join-inner">
+    <div class="section-label" data-ja="参加方法" data-en="How to Join">参加方法</div>
+    <h2 class="section-title reveal" data-ja="2つの方法で<br>参加できます。" data-en="Two ways<br>to get involved.">2つの方法で<br>参加できます。</h2>
+    <div class="join-types">
+      <div class="join-type reveal">
+        <div class="volunteer-tag" data-ja="※ボランティア" data-en="※ Volunteer">※ボランティア</div>
+        <div class="join-type-badge" data-ja="① 講師として参加" data-en="① Join as an Instructor">① 講師として参加</div>
+        <h3 data-ja="講師として参加する" data-en="Instructor Role">講師として参加する</h3>
+        <p data-ja="あなたの知識と経験で、世界の学習者をチャットでサポート。決まったシフトなし、隙間時間に気軽に参加できます。" data-en="Support learners worldwide via chat with your knowledge and experience. No fixed schedule — join casually in your spare time.">あなたの知識と経験で、世界の学習者をチャットでサポート。決まったシフトなし、隙間時間に気軽に参加できます。</p>
+        <div class="join-steps">
+          <div class="join-step">
+            <div class="step-circle">1</div>
+            <div class="step-text" data-ja="下記のフォームに必要事項を入力して送信する" data-en="Fill in and submit the form below">下記のフォームに必要事項を入力して送信する</div>
+          </div>
+          <div class="join-step">
+            <div class="step-circle">2</div>
+            <div class="step-text" data-ja="送信後、担当者よりご連絡します" data-en="We'll reach out to you after submission">送信後、担当者よりご連絡します</div>
+          </div>
+        </div>
+        <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="join-btn yellow" data-ja="講師として登録する →" data-en="Register as Instructor →">講師として登録する →</a>
+      </div>
+
+      <div class="join-type reveal">
+        <div class="volunteer-tag" data-ja="※ボランティア" data-en="※ Volunteer">※ボランティア</div>
+        <div class="join-type-badge" data-ja="② チームメンバーとして参加" data-en="② Join as a Team Member">② チームメンバーとして参加</div>
+        <h3 data-ja="チームメンバーとして参加する" data-en="Team Member Role">チームメンバーとして参加する</h3>
+        <p data-ja="サービス運営・企画・広報など、チームの一員として一緒にWith In Worldを育てましょう。" data-en="Join our team in operations, planning, outreach, and more. Help us grow With In World together.">サービス運営・企画・広報など、チームの一員として一緒にWith In Worldを育てましょう。</p>
+        <div class="join-steps">
+          <div class="join-step">
+            <div class="step-circle">1</div>
+            <div class="step-text" data-ja="下記のフォームに必要事項を入力して送信する" data-en="Fill in and submit the form below">下記のフォームに必要事項を入力して送信する</div>
+          </div>
+          <div class="join-step">
+            <div class="step-circle">2</div>
+            <div class="step-text" data-ja="送信後、担当者よりご連絡します" data-en="We'll reach out to you after submission">送信後、担当者よりご連絡します</div>
+          </div>
+        </div>
+        <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="join-btn" data-ja="チームに参加する →" data-en="Join the Team →">チームに参加する →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2 class="final-big reveal">
+      <span data-ja="誰もが学べる世界を、" data-en="We want to build a world">誰もが学べる世界を、</span><br><span class="hl" data-ja="あなたと一緒に作りたい。" data-en="where anyone can learn — with you.">あなたと一緒に作りたい。</span>
+    </h2>
+    <p class="final-body reveal" data-ja="あなたの参加を、心から待っています。小さな一歩が、世界の誰かの「学びたい。」を叶えます。" data-en="We're sincerely waiting for you. One small step fulfills someone's desire to learn somewhere in the world.">あなたの参加を、心から待っています。小さな一歩が、世界の誰かの「学びたい。」を叶えます。</p>
+    <div class="final-btns reveal">
+      <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="btn-white" data-ja="講師として参加する" data-en="Join as an Instructor">講師として参加する</a>
+      <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" class="btn-outline-white" data-ja="チームに参加する" data-en="Join the Team">チームに参加する</a>
+    </div>
+    <p class="final-contact reveal">
+      <span data-ja="お問い合わせ：" data-en="Contact: ">お問い合わせ：</span>
+      <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank" data-ja="お問い合わせフォーム" data-en="Contact Form">お問い合わせフォーム</a>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">With In <span>World</span></div>
+  <p data-ja="「学びたい。」を我慢しない。" data-en="Don't hold back your desire to learn.">「学びたい。」を我慢しない。</p>
+  <p style="margin-top:16px;" data-ja="© 2025 With In World. All rights reserved." data-en="© 2025 With In World. All rights reserved.">© 2025 With In World. All rights reserved.</p>
+</footer>
+
+<script>
+  // ===== LANGUAGE TOGGLE =====
+  function applyLang(lang) {
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      const text = el.getAttribute('data-' + lang);
+      if (text) el.innerHTML = text;
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+  });
+
+  // ===== PARTICLES =====
+  const heroBg = document.getElementById('heroBg');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const size = Math.random() * 80 + 20;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      animation-duration:${Math.random() * 20 + 15}s;
+      animation-delay:${Math.random() * -20}s;
+    `;
+    heroBg.appendChild(p);
+  }
+
+  // ===== SCROLL REVEAL =====
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .who-card, .benefit-card, .flow-timeline-item, .role-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
