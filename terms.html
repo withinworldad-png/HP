@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>利用規約 — Unication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A6E;
+    --blue: #2B5BA8;
+    --blue-mid: #3A6FC5;
+    --blue-light: #5B8DD9;
+    --blue-pale: #D6E4F7;
+    --blue-bg: #EEF4FC;
+    --white: #FFFFFF;
+    --off-white: #F5F8FE;
+    --text-dark: #1a2a4a;
+    --text-mid: #3a5080;
+    --text-light: #7a9ac0;
+    --yellow: #F5C842;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:'Noto Sans JP','DM Sans',sans-serif;
+    background:var(--off-white); color:var(--text-dark);
+    overflow-x:hidden; min-height:100vh;
+    display:flex; flex-direction:column;
+  }
+
+  /* ===== NAV ===== */
+  .lang-bar {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:rgba(255,255,255,0.94); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--blue-pale);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 40px; height:60px;
+  }
+  .logo-nav { font-family:'Comfortaa',cursive; font-weight:700; font-size:1.4rem; color:var(--navy); letter-spacing:0.01em; text-decoration:none; }
+  .logo-nav .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .logo-nav .cation { color:var(--navy); -webkit-text-fill-color:var(--navy); }
+  .logo-nav span { color:var(--blue-mid); }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .back-btn { color:var(--text-mid); font-size:0.85rem; text-decoration:none; font-weight:500; transition:color 0.2s; }
+  .back-btn:hover { color:var(--navy); }
+  .lang-toggle { display:flex; gap:4px; background:var(--blue-bg); border-radius:20px; padding:3px; }
+  .lang-btn { border:none; cursor:pointer; border-radius:16px; padding:5px 14px; font-size:0.8rem; font-weight:600; transition:all 0.2s; background:transparent; color:var(--text-mid); }
+  .lang-btn.active { background:var(--navy); color:white; }
+
+  /* ===== MAIN ===== */
+  main {
+    flex:1;
+    padding:100px 40px 60px;
+    display:flex; justify-content:center;
+  }
+  .terms-wrap {
+    width:100%; max-width:720px;
+  }
+
+  /* header */
+  .terms-header { margin-bottom:40px; }
+  .terms-eyebrow {
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--blue-mid); margin-bottom:10px;
+  }
+  .terms-title {
+    font-family:'Playfair Display','Noto Sans JP',serif;
+    font-size:clamp(1.8rem,4vw,2.8rem);
+    color:var(--navy); line-height:1.25; margin-bottom:16px;
+  }
+  .terms-dates {
+    font-size:0.78rem; color:var(--text-light); line-height:2;
+  }
+
+  /* card */
+  .terms-card {
+    background:white; border-radius:20px;
+    border:1px solid var(--blue-pale);
+    padding:40px 44px; margin-bottom:24px;
+    box-shadow:0 4px 24px rgba(30,58,110,0.07);
+  }
+  .terms-list {
+    list-style:none;
+    display:flex; flex-direction:column; gap:0;
+    counter-reset:term-counter;
+  }
+  .terms-list li {
+    counter-increment:term-counter;
+    display:flex; gap:16px; align-items:flex-start;
+    padding:18px 0;
+    border-bottom:1px solid var(--blue-bg);
+    font-size:0.9rem; color:var(--text-dark); line-height:1.85;
+  }
+  .terms-list li:last-child { border-bottom:none; padding-bottom:0; }
+  .terms-list li:first-child { padding-top:0; }
+  .term-num {
+    display:flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:50%; flex-shrink:0;
+    background:var(--blue-bg); color:var(--blue);
+    font-size:0.72rem; font-weight:800; margin-top:2px;
+  }
+  .terms-list li:nth-child(8) .term-num,
+  .terms-list li:nth-child(5) .term-num {
+    background:#fff3cd; color:#7a5c00;
+  }
+
+  /* CTA box */
+  .terms-cta-box {
+    background:white; border-radius:20px;
+    border:1px solid var(--blue-pale);
+    padding:32px 44px; text-align:center;
+    box-shadow:0 4px 24px rgba(30,58,110,0.07);
+  }
+  .terms-agree-note {
+    font-size:0.84rem; color:var(--text-mid); line-height:1.8;
+    margin-bottom:24px;
+    padding:14px 18px;
+    background:var(--blue-bg); border-radius:12px;
+    border-left:3px solid var(--blue-mid);
+    text-align:left;
+  }
+  .terms-agree-note strong { color:var(--navy); }
+  .terms-btn {
+    display:inline-block; text-decoration:none;
+    background:var(--navy); color:white;
+    padding:15px 40px; border-radius:28px;
+    font-size:1rem; font-weight:700; font-family:inherit;
+    transition:all 0.25s;
+    box-shadow:0 4px 20px rgba(30,58,110,0.25);
+  }
+  .terms-btn:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,58,110,0.3); }
+  .terms-btn-sub {
+    display:block; margin-top:14px;
+    font-size:0.78rem; color:var(--text-light);
+  }
+
+  footer {
+    background:#0d1d40; padding:36px 40px; text-align:center;
+    color:rgba(255,255,255,0.38); font-size:0.8rem;
+  }
+  .foot-logo { font-family:'Comfortaa',cursive; font-size:1.3rem; font-weight:700; color:rgba(255,255,255,0.9); margin-bottom:8px; }
+  .foot-logo .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .foot-logo .cation { color:white; -webkit-text-fill-color:white; }
+  .foot-logo span { color:var(--blue-light); }
+
+  @media(max-width:640px){
+    main { padding:88px 20px 48px; }
+    .terms-card, .terms-cta-box { padding:28px 24px; }
+    .lang-bar { padding:0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="lang-bar">
+  <a href="index.html" class="logo-nav"><span class="uni">Uni</span><span class="cation">cation</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="back-btn" data-ja="← ホームへ" data-en="← Home">← ホームへ</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="ja">JP</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="terms-wrap">
+
+    <!-- タイトル -->
+    <div class="terms-header">
+      <div class="terms-eyebrow" data-ja="利用規約" data-en="Terms of Service">利用規約</div>
+      <h1 class="terms-title" data-ja="Unication<br>利用規約" data-en="Unication<br>Terms of Service">Unication<br>利用規約</h1>
+      <div class="terms-dates">
+        <span data-ja="2026年3月29日　制定" data-en="Enacted: March 29, 2026">2026年3月29日　制定</span><br>
+        <span data-ja="2026年4月28日　改訂" data-en="Revised: April 28, 2026">2026年4月28日　改訂</span><br>
+        <span data-ja="2026年5月19日　文言の修正" data-en="May 19, 2026　Wording revised">2026年5月19日　文言の修正</span>
+      </div>
+    </div>
+
+    <!-- 規約本文 -->
+    <div class="terms-card">
+      <ol class="terms-list">
+        <li>
+          <div class="term-num">1</div>
+          <span data-ja="新規アカウントを作成した時点で本規約に同意したとみなします。" data-en="By creating a new account, you are deemed to have agreed to these Terms of Service.">新規アカウントを作成した時点で本規約に同意したとみなします。</span>
+        </li>
+        <li>
+          <div class="term-num">2</div>
+          <span data-ja="サービスは予告なく休止・終了する場合があります。" data-en="The service may be suspended or terminated without prior notice.">サービスは予告なく休止・終了する場合があります。</span>
+        </li>
+        <li>
+          <div class="term-num">3</div>
+          <span data-ja="チャットには学習に関する質問のみ送信してください。" data-en="Please only send questions related to learning via chat.">チャットには学習に関する質問のみ送信してください。</span>
+        </li>
+        <li>
+          <div class="term-num">4</div>
+          <span data-ja="チャット内容はすべてモニタリングしています。" data-en="All chat content is monitored.">チャット内容はすべてモニタリングしています。</span>
+        </li>
+        <li>
+          <div class="term-num">5</div>
+          <span data-ja="不適切なサービスの利用が発覚した場合は、管理者の判断で許可なくアカウントを停止する場合があります。" data-en="If inappropriate use of the service is discovered, the administrator may suspend your account without permission at their discretion.">不適切なサービスの利用が発覚した場合は、管理者の判断で許可なくアカウントを停止する場合があります。</span>
+        </li>
+        <li>
+          <div class="term-num">6</div>
+          <span data-ja="サイトのコードを閲覧しようとしないでください。" data-en="Please do not attempt to view the site's source code.">サイトのコードを閲覧しようとしないでください。</span>
+        </li>
+        <li>
+          <div class="term-num">7</div>
+          <span data-ja="サイトの情報をハッキングしたり勝手に書き換えたりしないでください。" data-en="Do not hack or alter the site's information without authorization.">サイトの情報をハッキングしたり勝手に書き換えたりしないでください。</span>
+        </li>
+        <li>
+          <div class="term-num">8</div>
+          <span data-ja="未成年者が本サービスを利用する場合は保護者の同意を得る必要があり、新規アカウントを作成した時点で保護者の同意を得ているものとします。" data-en="Minors must obtain parental consent to use this service, and by creating a new account, parental consent is deemed to have been obtained.">未成年者が本サービスを利用する場合は保護者の同意を得る必要があり、新規アカウントを作成した時点で保護者の同意を得ているものとします。</span>
+        </li>
+        <li>
+          <div class="term-num">9</div>
+          <span data-ja="本サービスを利用するには本規約に同意する必要があります。" data-en="You must agree to these Terms of Service to use this service.">本サービスを利用するには本規約に同意する必要があります。</span>
+        </li>
+        <li>
+          <div class="term-num">10</div>
+          <span data-ja="本規約は管理者が自由に変更できるものとします。" data-en="These Terms of Service may be changed freely by the administrator.">本規約は管理者が自由に変更できるものとします。</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- ボタン -->
+    <div class="terms-cta-box">
+      <div class="terms-agree-note">
+        <strong data-ja="【同意について】" data-en="【Regarding Agreement】">【同意について】</strong><br>
+        <span data-ja="新規登録した場合は、上記の利用規約に同意したことになります。下のボタンからサービスサイトに進み、アカウントを作成してください。" data-en="By registering a new account, you are deemed to have agreed to the Terms of Service above. Please proceed to the service site via the button below and create your account.">新規登録した場合は、上記の利用規約に同意したことになります。下のボタンからサービスサイトに進み、アカウントを作成してください。</span>
+      </div>
+      <a href="https://with-in-world-75609.web.app/" target="_blank" class="terms-btn" data-ja="サービスサイトへ進む →" data-en="Proceed to Service Site →">サービスサイトへ進む →</a>
+      <span class="terms-btn-sub" data-ja="※ ボタンを押すとサービスサイトに移動します" data-en="※ Clicking the button will take you to the service site">※ ボタンを押すとサービスサイトに移動します</span>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot-logo"><span class="uni">Uni</span><span class="cation">cation</span></div>
+  <p data-ja="「学びたい。」を我慢しない。" data-en="Don't hold back your desire to learn.">「学びたい。」を我慢しない。</p>
+</footer>
+
+<script>
+  function applyLang(lang) {
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      const t = el.getAttribute('data-' + lang);
+      if (t) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+</script>
+</body>
+</html>
