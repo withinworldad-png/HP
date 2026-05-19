@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unication — 「学びたい。」を我慢しない。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1E3A6E;
+    --blue: #2B5BA8;
+    --blue-mid: #3A6FC5;
+    --blue-light: #5B8DD9;
+    --blue-pale: #D6E4F7;
+    --blue-bg: #EEF4FC;
+    --white: #FFFFFF;
+    --off-white: #F5F8FE;
+    --text-dark: #1a2a4a;
+    --text-mid: #3a5080;
+    --text-light: #7a9ac0;
+    --yellow: #F5C842;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Noto Sans JP','DM Sans',sans-serif; background:var(--white); color:var(--text-dark); overflow-x:hidden; }
+
+  /* ===== NAVBAR ===== */
+  .lang-bar {
+    position:fixed; top:0; left:0; right:0; z-index:1000;
+    background:rgba(255,255,255,0.92); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--blue-pale);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 40px; height:60px; transition:box-shadow 0.3s;
+  }
+  .lang-bar.scrolled { box-shadow:0 4px 24px rgba(30,58,110,0.1); }
+  .logo-nav { font-family:'Comfortaa',cursive; font-weight:700; font-size:1.4rem; color:var(--navy); letter-spacing:0.01em; text-decoration:none; }
+  .logo-nav .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .logo-nav .cation { color:var(--navy); -webkit-text-fill-color:var(--navy); }
+  .nav-links { display:flex; gap:28px; align-items:center; list-style:none; }
+  .nav-links a { text-decoration:none; color:var(--text-mid); font-size:0.85rem; font-weight:500; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--navy); }
+  .nav-instructor-link { color:var(--blue)!important; font-weight:700!important; background:var(--blue-bg); padding:5px 12px; border-radius:14px; border:1px solid var(--blue-pale); }
+  .nav-instructor-link:hover { background:var(--blue-pale)!important; border-color:var(--blue)!important; }
+  .lang-toggle { display:flex; gap:4px; background:var(--blue-bg); border-radius:20px; padding:3px; }
+  .lang-btn { border:none; cursor:pointer; border-radius:16px; padding:5px 14px; font-size:0.8rem; font-weight:600; transition:all 0.2s; background:transparent; color:var(--text-mid); }
+  .lang-btn.active { background:var(--navy); color:white; }
+  .nav-right { display:flex; align-items:center; gap:14px; }
+  .nav-cta { background:var(--blue); color:white; border:none; padding:8px 20px; border-radius:20px; font-size:0.85rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.2s; text-decoration:none; display:inline-block; }
+  .nav-cta:hover { background:var(--navy); transform:translateY(-1px); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height:100vh;
+    background:linear-gradient(150deg,#f0f5ff 0%,var(--blue-bg) 45%,#ddeeff 100%);
+    display:flex; align-items:center;
+    padding:100px 40px 60px; position:relative; overflow:hidden;
+  }
+  /* animated blobs */
+  .hero-blob { position:absolute; border-radius:50%; filter:blur(60px); pointer-events:none; }
+  .blob-1 { width:520px; height:520px; background:radial-gradient(circle,rgba(43,91,168,0.18) 0%,transparent 70%); top:-140px; right:-80px; animation:blobFloat1 9s ease-in-out infinite; }
+  .blob-2 { width:380px; height:380px; background:radial-gradient(circle,rgba(91,141,217,0.14) 0%,transparent 70%); bottom:-80px; left:-60px; animation:blobFloat2 7s ease-in-out infinite; }
+  .blob-3 { width:260px; height:260px; background:radial-gradient(circle,rgba(245,200,66,0.1) 0%,transparent 70%); top:30%; left:35%; animation:blobFloat3 11s ease-in-out infinite; }
+  @keyframes blobFloat1 { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(-30px,20px) scale(1.05)} 66%{transform:translate(20px,-15px) scale(0.97)} }
+  @keyframes blobFloat2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-25px) scale(1.08)} }
+  @keyframes blobFloat3 { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(-20px,15px) scale(1.1)} 80%{transform:translate(15px,-10px) scale(0.92)} }
+  /* floating dots */
+  .dot-field { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .fdot { position:absolute; border-radius:50%; background:var(--blue-mid); opacity:0; animation:dotRise linear infinite; }
+  @keyframes dotRise { 0%{opacity:0;transform:translateY(0) scale(0.5)} 10%{opacity:0.25} 90%{opacity:0.15} 100%{opacity:0;transform:translateY(-120px) scale(1)} }
+
+  .hero-inner { max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; z-index:1; }
+  .hero-badge { display:inline-block; background:var(--blue-pale); color:var(--blue); font-size:0.74rem; font-weight:700; padding:5px 14px; border-radius:20px; margin-bottom:20px; letter-spacing:0.06em; text-transform:uppercase; animation:fadeInUp 0.7s ease both; }
+  .hero-title { font-family:'Playfair Display','Noto Sans JP',serif; font-size:clamp(2.2rem,4vw,3.5rem); line-height:1.2; color:var(--navy); margin-bottom:16px; animation:fadeInUp 0.7s 0.1s ease both; }
+  .hero-title .highlight { color:var(--blue-mid); }
+  .hero-sub { font-size:1.05rem; color:var(--text-mid); line-height:1.85; margin-bottom:36px; font-weight:300; animation:fadeInUp 0.7s 0.2s ease both; }
+  .hero-buttons { display:flex; gap:12px; flex-wrap:wrap; animation:fadeInUp 0.7s 0.3s ease both; }
+  .btn-primary { display:inline-block; text-decoration:none; background:var(--navy); color:white; border:none; padding:14px 28px; border-radius:28px; font-size:0.95rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.25s; box-shadow:0 4px 20px rgba(30,58,110,0.25); }
+  .btn-primary:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,58,110,0.3); }
+  .btn-secondary { display:inline-block; text-decoration:none; background:transparent; color:var(--navy); border:2px solid var(--blue-pale); padding:12px 24px; border-radius:28px; font-size:0.95rem; font-weight:600; cursor:pointer; font-family:inherit; transition:all 0.25s; }
+  .btn-secondary:hover { border-color:var(--blue); color:var(--blue); background:var(--blue-bg); }
+  .hero-stats { display:flex; gap:28px; margin-top:40px; animation:fadeInUp 0.7s 0.4s ease both; }
+  .stat-num { font-family:'DM Sans',sans-serif; font-size:1.6rem; font-weight:700; color:var(--navy); line-height:1; }
+  .stat-label { font-size:0.74rem; color:var(--text-light); margin-top:3px; }
+
+  /* ===== CHAT DEMO (hero) ===== */
+  .hero-visual { position:relative; animation:fadeInRight 0.9s 0.25s ease both; }
+  .chat-demo { background:white; border-radius:20px; box-shadow:0 24px 64px rgba(30,58,110,0.18),0 4px 16px rgba(30,58,110,0.08); overflow:hidden; transform:perspective(1200px) rotateY(-5deg) rotateX(2deg); transition:transform 0.5s ease; }
+  .chat-demo:hover { transform:perspective(1200px) rotateY(0) rotateX(0); }
+  .chat-header { background:var(--navy); padding:14px 20px; display:flex; align-items:center; gap:10px; }
+  .chat-dots { display:flex; gap:5px; }
+  .chat-dots span { width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,0.3); }
+  .chat-dots span:nth-child(1){background:#ff6b6b;} .chat-dots span:nth-child(2){background:#ffd93d;} .chat-dots span:nth-child(3){background:#6bcb77;}
+  .chat-title { color:white; font-size:0.85rem; font-weight:600; margin-left:8px; }
+  .chat-body { padding:20px; background:#f8fafd; display:flex; flex-direction:column; gap:14px; min-height:300px; }
+  .chat-msg { max-width:82%; opacity:0; animation:msgPop 0.4s ease forwards; }
+  .chat-msg.user { align-self:flex-end; animation-delay:var(--d); }
+  .chat-msg.mentor { align-self:flex-start; animation-delay:var(--d); }
+  .chat-bubble { padding:10px 16px; border-radius:18px; font-size:0.85rem; line-height:1.6; }
+  .user .chat-bubble { background:var(--navy); color:white; border-bottom-right-radius:4px; }
+  .mentor .chat-bubble { background:white; color:var(--text-dark); border-bottom-left-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.07); }
+  .chat-name { font-size:0.68rem; color:var(--text-light); margin-bottom:4px; padding:0 4px; }
+  .chat-input-bar { padding:12px 16px; border-top:1px solid var(--blue-pale); background:white; display:flex; gap:10px; align-items:center; }
+  .chat-input-fake { flex:1; background:var(--off-white); border-radius:20px; padding:8px 16px; font-size:0.8rem; color:var(--text-light); border:1px solid var(--blue-pale); }
+  .chat-send { background:var(--navy); color:white; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+  .chat-send:hover { background:var(--blue); }
+  /* typing dots */
+  .typing-indicator { display:flex; gap:4px; align-items:center; padding:10px 16px; background:white; border-radius:18px; border-bottom-left-radius:4px; box-shadow:0 2px 8px rgba(0,0,0,0.07); width:fit-content; opacity:0; animation:msgPop 0.4s ease forwards; animation-delay:inherit; align-self:flex-start; }
+  .typing-indicator span { width:7px; height:7px; border-radius:50%; background:var(--blue-light); animation:typingDot 1.2s ease-in-out infinite; }
+  .typing-indicator span:nth-child(2){animation-delay:0.2s;} .typing-indicator span:nth-child(3){animation-delay:0.4s;}
+  @keyframes typingDot { 0%,80%,100%{transform:scale(0.7);opacity:0.5} 40%{transform:scale(1);opacity:1} }
+  @keyframes msgPop { from{opacity:0;transform:translateY(10px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInRight { from{opacity:0;transform:translateX(36px)} to{opacity:1;transform:translateX(0)} }
+
+  /* ===== TICKER ===== */
+  .ticker-wrap { background:var(--navy); padding:12px 0; overflow:hidden; white-space:nowrap; position:relative; }
+  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2; }
+  .ticker-wrap::before { left:0; background:linear-gradient(to right,var(--navy),transparent); }
+  .ticker-wrap::after  { right:0; background:linear-gradient(to left,var(--navy),transparent); }
+  .ticker-track { display:inline-block; animation:tickerScroll 28s linear infinite; }
+  .ticker-track:hover { animation-play-state:paused; }
+  @keyframes tickerScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .ticker-item { display:inline-block; margin:0 32px; font-size:0.82rem; font-weight:500; color:rgba(255,255,255,0.75); letter-spacing:0.03em; }
+  .ticker-item .dot { color:var(--yellow); margin-right:10px; }
+
+  /* ===== SECTION BASE ===== */
+  section { padding:100px 40px; }
+  .section-inner { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:0.74rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:12px; }
+  .section-title { font-family:'Playfair Display','Noto Sans JP',serif; font-size:clamp(1.8rem,3vw,2.8rem); color:var(--navy); line-height:1.3; margin-bottom:20px; }
+  .section-body { font-size:1rem; color:var(--text-mid); line-height:1.9; max-width:640px; font-weight:300; }
+
+  /* ===== COURSES ===== */
+  .courses-section { padding:80px 40px; background:var(--white); }
+  .courses-inner { max-width:1100px; margin:0 auto; }
+  .courses-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:48px; }
+  .course-card {
+    border-radius:18px; padding:28px 22px; position:relative; overflow:hidden;
+    border:1px solid var(--blue-pale); background:var(--off-white);
+    transition:transform 0.3s,box-shadow 0.3s,border-color 0.3s;
+  }
+  .course-card:hover { transform:translateY(-6px); box-shadow:0 12px 36px rgba(30,58,110,0.12); border-color:var(--blue-mid); }
+  .course-card.paid {
+    background:linear-gradient(135deg,#fffbea 0%,#fff3c4 100%);
+    border-color:#e8c84a;
+  }
+  .course-card.paid:hover { box-shadow:0 12px 36px rgba(200,160,0,0.18); border-color:#c8a000; }
+  .course-tag {
+    display:inline-block; font-size:0.65rem; font-weight:800;
+    letter-spacing:0.08em; text-transform:uppercase;
+    padding:4px 10px; border-radius:10px; margin-bottom:14px;
+  }
+  .course-card:not(.paid) .course-tag { background:var(--blue-pale); color:var(--blue); }
+  .course-card.paid .course-tag { background:rgba(200,150,0,0.15); color:#7a5c00; }
+  .course-icon { font-size:2rem; margin-bottom:12px; display:block; }
+  .course-card h3 { font-size:0.95rem; font-weight:700; color:var(--navy); margin-bottom:8px; line-height:1.4; }
+  .course-card p { font-size:0.82rem; color:var(--text-mid); line-height:1.75; font-weight:300; }
+  .course-card.paid h3 { color:#5a3e00; }
+  .course-card.paid p { color:#6b4f00; }
+  .paid-badge {
+    position:absolute; top:14px; right:14px;
+    background:#e8c84a; color:#5a3e00;
+    font-size:0.65rem; font-weight:800; padding:3px 9px; border-radius:10px;
+  }
+  .grammar-btn-wrap { margin-top:28px; text-align:center; }
+  .grammar-btn {
+    display:inline-block; text-decoration:none;
+    background:var(--navy); color:white;
+    padding:13px 30px; border-radius:26px;
+    font-size:0.9rem; font-weight:700; font-family:inherit;
+    transition:all 0.25s; box-shadow:0 4px 18px rgba(30,58,110,0.2);
+  }
+  .grammar-btn:hover { background:var(--blue); transform:translateY(-2px); box-shadow:0 8px 28px rgba(30,58,110,0.28); }
+  @media(max-width:768px){ .courses-grid{grid-template-columns:1fr 1fr} }
+  @media(max-width:480px){ .courses-grid{grid-template-columns:1fr} }
+
+  /* ===== PROBLEM ===== */
+  .problem-section { background:var(--navy); color:white; padding:100px 40px; }
+  .problem-section .section-label { color:var(--blue-light); }
+  .problem-section .section-title { color:white; }
+  .problem-section .section-body { color:rgba(255,255,255,0.72); max-width:100%; }
+  .problem-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:56px; }
+  .problem-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:32px; transition:background 0.3s,transform 0.3s; }
+  .problem-card:hover { background:rgba(255,255,255,0.11); transform:translateY(-4px); }
+  .problem-card h3 { font-size:1rem; font-weight:700; color:var(--blue-light); margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+  .problem-card h3::before { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--blue-light); flex-shrink:0; }
+  .problem-card ul { list-style:none; display:flex; flex-direction:column; gap:11px; }
+  .problem-card ul li { font-size:0.9rem; color:rgba(255,255,255,0.78); padding-left:16px; position:relative; line-height:1.7; }
+  .problem-card ul li::before { content:'·'; position:absolute; left:0; color:var(--blue-light); font-size:1.5rem; top:-4px; }
+
+  /* ===== HOW IT WORKS ===== */
+  .how-section { background:var(--off-white); }
+  .how-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:56px; }
+  .how-card { background:white; border-radius:20px; padding:36px 28px; text-align:center; box-shadow:0 4px 24px rgba(30,58,110,0.07); transition:transform 0.35s,box-shadow 0.35s; position:relative; overflow:hidden; }
+  .how-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--blue),var(--blue-light)); }
+  .how-card:hover { transform:translateY(-7px); box-shadow:0 16px 40px rgba(30,58,110,0.15); }
+  .how-icon { width:64px; height:64px; border-radius:50%; background:var(--blue-bg); display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:1.8rem; transition:transform 0.3s; }
+  .how-card:hover .how-icon { transform:scale(1.15) rotate(8deg); }
+  .how-card h3 { font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:10px; }
+  .how-card p { font-size:0.86rem; color:var(--text-mid); line-height:1.8; font-weight:300; }
+
+  /* ===== CHAT FLOW ===== */
+  .flow-section { background:white; }
+  .flow-visual { margin-top:56px; display:flex; gap:40px; align-items:flex-start; flex-wrap:wrap; }
+  .flow-chat-wrap { flex:1; min-width:300px; background:#f8fafd; border-radius:20px; border:1px solid var(--blue-pale); overflow:hidden; box-shadow:0 8px 32px rgba(30,58,110,0.1); }
+  .flow-chat-body { padding:20px; display:flex; flex-direction:column; gap:12px; }
+  .flow-steps { flex:1; min-width:280px; display:flex; flex-direction:column; gap:20px; }
+  .flow-step { display:flex; gap:16px; align-items:flex-start; }
+  .step-num { width:36px; height:36px; border-radius:50%; background:var(--navy); color:white; font-size:0.82rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:transform 0.3s; }
+  .flow-step:hover .step-num { transform:scale(1.1); }
+  .step-content h4 { font-size:0.95rem; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .step-content p { font-size:0.84rem; color:var(--text-mid); line-height:1.7; }
+
+  /* ===== FEATURES ===== */
+  .features-section { background:var(--blue-bg); }
+  .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:56px; }
+  .feature-card { background:white; border-radius:16px; padding:28px; border:1px solid var(--blue-pale); transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s; }
+  .feature-card:hover { border-color:var(--blue-mid); transform:translateY(-5px); box-shadow:0 12px 36px rgba(30,58,110,0.12); }
+  .feature-icon { font-size:2rem; margin-bottom:14px; display:block; }
+  .feature-card h3 { font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .feature-card p { font-size:0.84rem; color:var(--text-mid); line-height:1.75; font-weight:300; }
+
+  /* ===== CTA ===== */
+  .cta-section { background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%); text-align:center; padding:100px 40px; position:relative; overflow:hidden; }
+  .cta-section::before { content:''; position:absolute; top:-120px; left:50%; transform:translateX(-50%); width:700px; height:700px; background:radial-gradient(circle,rgba(255,255,255,0.06) 0%,transparent 70%); border-radius:50%; animation:blobFloat2 8s ease-in-out infinite; }
+  .cta-label { font-size:0.74rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-light); margin-bottom:16px; }
+  .cta-title { font-family:'Playfair Display','Noto Sans JP',serif; font-size:clamp(1.8rem,3.5vw,3rem); color:white; line-height:1.3; margin-bottom:20px; }
+  .cta-body { font-size:1rem; color:rgba(255,255,255,0.72); margin-bottom:40px; font-weight:300; }
+  .cta-cards { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:48px; }
+  .cta-card { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); border-radius:18px; padding:30px 26px; width:280px; text-align:left; transition:background 0.3s,transform 0.3s,border-color 0.3s; }
+  .cta-card:hover { background:rgba(255,255,255,0.18); transform:translateY(-5px); border-color:rgba(255,255,255,0.35); }
+  .cta-card-icon { font-size:2rem; margin-bottom:14px; }
+  .cta-card h3 { color:white; font-size:1rem; font-weight:700; margin-bottom:8px; }
+  .cta-card p { color:rgba(255,255,255,0.68); font-size:0.82rem; line-height:1.75; margin-bottom:18px; }
+  .cta-card-btn { display:inline-block; text-decoration:none; background:white; color:var(--navy); border:none; border-radius:20px; padding:8px 18px; font-size:0.8rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+  .cta-card-btn:hover { background:var(--yellow); }
+  .cta-contact { margin-top:48px; color:rgba(255,255,255,0.55); font-size:0.86rem; }
+  .cta-contact a { color:var(--blue-light); text-decoration:none; font-weight:600; }
+  .cta-contact a:hover { text-decoration:underline; }
+
+  /* ===== ACCOUNT SETUP ===== */
+  .setup-section { padding:100px 40px; background:var(--blue-bg); }
+  .setup-inner { max-width:900px; margin:0 auto; }
+  .setup-steps { display:flex; flex-direction:column; gap:0; margin-top:56px; position:relative; }
+  .setup-steps::before { content:''; position:absolute; left:24px; top:28px; bottom:28px; width:2px; background:linear-gradient(to bottom,var(--blue),var(--blue-pale)); }
+  .setup-step {
+    display:flex; gap:24px; align-items:flex-start; padding-bottom:32px;
+    opacity:0; transform:translateX(-18px);
+    transition:opacity 0.55s ease, transform 0.55s ease;
+  }
+  .setup-step:last-child { padding-bottom:0; }
+  .setup-step.visible { opacity:1; transform:translateX(0); }
+  .setup-circle {
+    width:48px; height:48px; border-radius:50%;
+    background:var(--navy); color:white;
+    font-size:1rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; position:relative; z-index:1;
+    box-shadow:0 0 0 5px var(--blue-bg), 0 0 0 7px var(--blue-pale);
+    transition:transform 0.3s;
+  }
+  .setup-step:hover .setup-circle { transform:scale(1.1); }
+  .setup-body {
+    background:white; border-radius:16px; padding:22px 26px; flex:1;
+    border:1px solid var(--blue-pale); margin-top:6px;
+    transition:border-color 0.3s, box-shadow 0.3s;
+  }
+  .setup-step:hover .setup-body { border-color:var(--blue-mid); box-shadow:0 6px 24px rgba(30,58,110,0.1); }
+  .setup-step-label { font-size:0.66rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-mid); margin-bottom:5px; }
+  .setup-step-title { font-size:1rem; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .setup-step-desc { font-size:0.84rem; color:var(--text-mid); line-height:1.8; font-weight:300; }
+  .setup-warn {
+    display:inline-flex; gap:7px; align-items:flex-start;
+    background:#fff8e1; border:1px solid #f5c842;
+    border-radius:10px; padding:8px 12px; margin-top:10px;
+    font-size:0.78rem; color:#7a5c00; line-height:1.6;
+  }
+  .setup-warn .wi { font-size:0.9rem; flex-shrink:0; margin-top:1px; }
+
+  /* ===== FOOTER ===== */
+  footer { background:#0d1d40; padding:44px 40px; text-align:center; color:rgba(255,255,255,0.38); font-size:0.82rem; }
+  .foot-logo { font-family:'Comfortaa',cursive; font-size:1.3rem; font-weight:700; color:rgba(255,255,255,0.9); margin-bottom:10px; }
+  .foot-logo .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .foot-logo .cation { color:white; -webkit-text-fill-color:white; }
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  /* stagger grid children */
+  .stagger > * { opacity:0; transform:translateY(24px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .stagger.visible > *:nth-child(1){opacity:1;transform:none;transition-delay:0s}
+  .stagger.visible > *:nth-child(2){opacity:1;transform:none;transition-delay:0.1s}
+  .stagger.visible > *:nth-child(3){opacity:1;transform:none;transition-delay:0.2s}
+  .stagger.visible > *:nth-child(4){opacity:1;transform:none;transition-delay:0.3s}
+  .stagger.visible > *:nth-child(5){opacity:1;transform:none;transition-delay:0.4s}
+  .stagger.visible > *:nth-child(6){opacity:1;transform:none;transition-delay:0.5s}
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:768px){
+    .hero-inner{grid-template-columns:1fr;gap:40px}
+    .problem-grid,.how-grid,.features-grid{grid-template-columns:1fr}
+    .flow-visual{flex-direction:column}
+    .nav-links{display:none}
+    section,.problem-section{padding:64px 20px}
+    .hero{padding:88px 20px 40px}
+    .lang-bar{padding:0 20px}
+    .cta-cards{flex-direction:column;align-items:center}
+    .hero-stats{gap:20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="lang-bar" id="navbar">
+  <div class="logo-nav"><span class="uni">Uni</span><span class="cation">cation</span></div>
+  <ul class="nav-links">
+    <li><a href="#about" data-ja="サービスとは" data-en="About">サービスとは</a></li>
+    <li><a href="#how" data-ja="使い方" data-en="How it works">使い方</a></li>
+    <li><a href="#features" data-ja="特徴" data-en="Features">特徴</a></li>
+    <li><a href="instructor.html" class="nav-instructor-link" data-ja="📣 講師募集" data-en="📣 Join as Instructor">📣 講師募集</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="ja">JP</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="https://with-in-world-75609.web.app/" target="_blank" class="nav-cta" data-ja="ログイン" data-en="Login">ログイン</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-blob blob-3"></div>
+  <div class="dot-field" id="dotField"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge" data-ja="オンラインチャット型学習支援" data-en="Online Chat-Based Learning Support">オンラインチャット型学習支援</div>
+      <h1 class="hero-title">
+        <span class="highlight" data-ja="「学びたい。」" data-en='"I want to learn."'>「学びたい。」</span><br>
+        <span data-ja="を我慢しない。" data-en="Don't hold back.">を我慢しない。</span>
+      </h1>
+      <p class="hero-sub" data-ja="世界でつながる、チャット型学習サポート。<br>いつでも・どこでも・だれでも、国境を超えた学びを。" data-en="Chat-based learning support, connected across the world.<br>Anytime, anywhere, for anyone — learning beyond borders.">世界でつながる、チャット型学習サポート。<br>いつでも・どこでも・だれでも、国境を超えた学びを。</p>
+      <div class="hero-buttons">
+        <a href="terms.html" class="btn-primary" data-ja="無料で始める →" data-en="Get Started Free →">無料で始める →</a>
+        <a href="instructor.html" class="btn-secondary" data-ja="講師として参加する" data-en="Join as an Instructor">講師として参加する</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num" data-ja="基本無料" data-en="Mostly Free">基本無料</div>
+          <div class="stat-label" data-ja="日本語文法学習のみ有料" data-en="Japanese grammar is paid only">日本語文法学習のみ有料</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label" data-ja="いつでも質問OK" data-en="Ask anytime">いつでも質問OK</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-ja="多言語" data-en="Multi-lang">多言語</div>
+          <div class="stat-label" data-ja="言語の壁を越えた学び" data-en="Learning beyond language barriers">言語の壁を越えた学び</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="chat-demo">
+        <div class="chat-header">
+          <div class="chat-dots"><span></span><span></span><span></span></div>
+          <div class="chat-title">Unication — Chat</div>
+        </div>
+        <div class="chat-body">
+          <div class="chat-msg user" style="--d:0.4s">
+            <div class="chat-name">You</div>
+            <div class="chat-bubble" data-ja="こんにちは！三角関数について教えてください。" data-en="Hi! Could you explain trigonometric functions?">こんにちは！三角関数について教えてください。</div>
+          </div>
+          <div class="chat-msg mentor" style="--d:1.2s">
+            <div class="chat-name">Mentor</div>
+            <div class="chat-bubble" data-ja="もちろん！直角三角形の辺の比で定義されます。sin・cos・tanから始めましょう✨" data-en="Sure! They're defined by right triangle side ratios. Let's start with sin, cos, tan ✨">もちろん！直角三角形の辺の比で定義されます。sin・cos・tanから始めましょう✨</div>
+          </div>
+          <div class="chat-msg user" style="--d:2s">
+            <div class="chat-name">You</div>
+            <div class="chat-bubble" data-ja="例を教えてもらえますか？" data-en="Could you give me an example?">例を教えてもらえますか？</div>
+          </div>
+          <div class="chat-msg mentor" style="--d:2.8s">
+            <div class="chat-name">Mentor</div>
+            <div class="chat-bubble" data-ja="角度30°なら、sin30° = 0.5 です。一緒に図を描いてみましょう！" data-en="For 30°, sin30° = 0.5. Let's draw it together!">角度30°なら、sin30° = 0.5 です。一緒に図を描いてみましょう！</div>
+          </div>
+          <div class="typing-indicator" style="animation-delay:3.8s;"><span></span><span></span><span></span></div>
+        </div>
+        <div class="chat-input-bar">
+          <div class="chat-input-fake" data-ja="質問を入力..." data-en="Type your question...">質問を入力...</div>
+          <button class="chat-send">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="いつでも・どこでも・だれでも" data-en="Anytime · Anywhere · Anyone">いつでも・どこでも・だれでも</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="チャットで気軽に質問" data-en="Ask casually via chat">チャットで気軽に質問</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="世界中の講師がサポート" data-en="Instructors worldwide support you">世界中の講師がサポート</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="教科学習・英会話・日本語" data-en="Subjects · English · Japanese">教科学習・英会話・日本語</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="AIにはない人の温かさ" data-en="Human warmth AI can't replace">AIにはない人の温かさ</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="Well-being な世界へ" data-en="Toward a Well-being world">Well-being な世界へ</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="いつでも・どこでも・だれでも" data-en="Anytime · Anywhere · Anyone">いつでも・どこでも・だれでも</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="チャットで気軽に質問" data-en="Ask casually via chat">チャットで気軽に質問</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="世界中の講師がサポート" data-en="Instructors worldwide support you">世界中の講師がサポート</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="教科学習・英会話・日本語" data-en="Subjects · English · Japanese">教科学習・英会話・日本語</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="AIにはない人の温かさ" data-en="Human warmth AI can't replace">AIにはない人の温かさ</span></span>
+    <span class="ticker-item"><span class="dot">✦</span><span data-ja="Well-being な世界へ" data-en="Toward a Well-being world">Well-being な世界へ</span></span>
+  </div>
+</div>
+
+<!-- COURSES -->
+<section class="courses-section">
+  <div class="courses-inner">
+    <div class="section-label" data-ja="学べること" data-en="What You Can Learn">学べること</div>
+    <h2 class="section-title reveal" data-ja="4つの学習コース" data-en="4 Learning Courses">4つの学習コース</h2>
+    <p class="section-body reveal" data-ja="教科学習・日本語・英会話は基本無料。日本語文法学習のみ有料プランです。" data-en="Subject learning, Japanese conversation, and English are mostly free. Japanese grammar is a paid course only.">教科学習・日本語・英会話は基本無料。日本語文法学習のみ有料プランです。</p>
+    <div class="courses-grid stagger reveal">
+      <div class="course-card">
+        <div class="course-tag" data-ja="基本無料" data-en="Free">基本無料</div>
+        <span class="course-icon">📖</span>
+        <h3 data-ja="教科学習（学校での学習補助）" data-en="Subject Learning (School Support)">教科学習<br>（学校での学習補助）</h3>
+        <p data-ja="数学・理科・社会など、学校の授業に合わせた学習をチャットでサポート。わからない問題を一緒に解決します。" data-en="Chat support for school subjects like math, science, and social studies. Solve problems together with instructors.">数学・理科・社会など、学校の授業に合わせた学習をチャットでサポート。わからない問題を一緒に解決します。</p>
+      </div>
+      <div class="course-card">
+        <div class="course-tag" data-ja="基本無料" data-en="Free">基本無料</div>
+        <span class="course-icon">🗾</span>
+        <h3 data-ja="日本語会話" data-en="Japanese Conversation">日本語会話</h3>
+        <p data-ja="海外からの方向けの日本語会話学習。日常会話・文化紹介など、ネイティブの講師が丁寧にサポートします。" data-en="Japanese conversation for learners from abroad. Everyday conversation and cultural topics, supported by native instructors.">海外からの方向けの日本語会話学習。日常会話・文化紹介など、ネイティブの講師が丁寧にサポートします。</p>
+      </div>
+      <div class="course-card paid">
+        <div class="paid-badge" data-ja="有料" data-en="Paid">有料</div>
+        <div class="course-tag" data-ja="有料プラン" data-en="Paid Plan">有料プラン</div>
+        <span class="course-icon">📝</span>
+        <h3 data-ja="日本語文法学習（教材に沿って）" data-en="Japanese Grammar (Curriculum-based)">日本語文法学習<br>（教材に沿って）</h3>
+        <p data-ja="専用教材を使った体系的な日本語文法学習。基礎から応用まで、段階的にしっかり学べます。" data-en="Systematic Japanese grammar learning using dedicated materials. Learn step by step from basics to advanced.">専用教材を使った体系的な日本語文法学習。基礎から応用まで、段階的にしっかり学べます。</p>
+      </div>
+      <div class="course-card">
+        <div class="course-tag" data-ja="基本無料" data-en="Free">基本無料</div>
+        <span class="course-icon">🗣️</span>
+        <h3 data-ja="英会話指導" data-en="English Conversation">英会話指導</h3>
+        <p data-ja="日常英会話から試験対策まで、チャットで気軽に学べます。世界中の講師があなたの英語力をサポートします。" data-en="From everyday English to exam prep, learn easily via chat. Instructors worldwide support your English skills.">日常英会話から試験対策まで、チャットで気軽に学べます。世界中の講師があなたの英語力をサポートします。</p>
+      </div>
+    </div>
+    <div class="grammar-btn-wrap reveal">
+      <a href="grammar.html" class="grammar-btn" data-ja="📝 日本語文法学習の詳細はこちら →" data-en="📝 Learn more about Japanese Grammar →">📝 日本語文法学習の詳細はこちら →</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="section-label" data-ja="サービスの特徴" data-en="Service Features">サービスの特徴</div>
+    <h2 class="section-title reveal" data-ja="教育格差に、人の力で向き合う。" data-en="Addressing inequality with human connection.">教育格差に、人の力で向き合う。</h2>
+    <p class="section-body reveal" data-ja="世界中のボランティア・有償メンターが講師として対応。AIにはない、豊かで温かい学びを提供します。" data-en="Volunteer and paid mentors from around the world serve as instructors. We offer the rich, human warmth that AI simply cannot.">世界中のボランティア・有償メンターが講師として対応。AIにはない、豊かで温かい学びを提供します。</p>
+    <div class="how-grid stagger reveal">
+      <div class="how-card">
+        <div class="how-icon">🌍</div>
+        <h3 data-ja="世界中へ" data-en="Global Reach">世界中へ</h3>
+        <p data-ja="国を超えた支援・つながり。時間・場所・国を問わず、学べる環境を提供します。" data-en="Support and connection beyond borders. Learn anytime, anywhere, regardless of country.">国を超えた支援・つながり。時間・場所・国を問わず、学べる環境を提供します。</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">💬</div>
+        <h3 data-ja="人の力で" data-en="Human Power">人の力で</h3>
+        <p data-ja="AIにはない豊かな学びを。本物の講師との対話が、深い理解を生み出します。" data-en="Rich learning that AI can't replicate. Real conversations with real instructors create deep understanding.">AIにはない豊かな学びを。本物の講師との対話が、深い理解を生み出します。</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🎓</div>
+        <h3 data-ja="誰でも学べる" data-en="For Everyone">誰でも学べる</h3>
+        <p data-ja="学びたいすべての人に。年齢・国籍不問。教科学習から英会話・日本語まで幅広く対応。" data-en="For every learner. Any age, any nationality. From academic subjects to English and Japanese conversation.">学びたいすべての人に。年齢・国籍不問。教科学習から英会話・日本語まで幅広く対応。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAT FLOW（中段 — ヘッダー・オンライン表示なし） -->
+<section class="flow-section">
+  <div class="section-inner">
+    <div class="section-label" data-ja="使い方" data-en="How to Use">使い方</div>
+    <h2 class="section-title reveal" data-ja="チャットで、すぐに質問できる。" data-en="Ask questions instantly via chat.">チャットで、すぐに質問できる。</h2>
+    <div class="flow-visual">
+      <div class="flow-chat-wrap reveal">
+        <div class="flow-chat-body">
+          <div class="chat-msg mentor">
+            <div class="chat-name">Mentor</div>
+            <div class="chat-bubble" data-ja="こんにちは！何でも聞いてください 😊" data-en="Hello! Feel free to ask anything 😊">こんにちは！何でも聞いてください 😊</div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-name">You</div>
+            <div class="chat-bubble" data-ja="英語の現在完了形がわかりません" data-en="I don't understand the present perfect tense">英語の現在完了形がわかりません</div>
+          </div>
+          <div class="chat-msg mentor">
+            <div class="chat-name">Mentor</div>
+            <div class="chat-bubble" data-ja="わかりました！「I have lived here for 5 years.」— これが基本の形です 📝" data-en="Got it! 'I have lived here for 5 years.' — that's the basic form 📝">わかりました！「I have lived here for 5 years.」— これが基本の形です 📝</div>
+          </div>
+          <div class="chat-msg user">
+            <div class="chat-name">You</div>
+            <div class="chat-bubble" data-ja="ありがとうございます！よくわかりました😊" data-en="Thank you! That makes sense now 😊">ありがとうございます！よくわかりました😊</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-steps reveal">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4 data-ja="登録する" data-en="Register">登録する</h4>
+            <p data-ja="上の「無料で学ぶ」ボタンから新規アカウントを作成してください。" data-en='Click the "Start Learning Free" button above to create a new account.'>上の「無料で学ぶ」ボタンから新規アカウントを作成してください。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4 data-ja="チャットで質問する" data-en="Ask via chat">チャットで質問する</h4>
+            <p data-ja="簡単な操作で、いつでもどこでも質問できます。" data-en="Simple interface — ask questions anytime, anywhere.">簡単な操作で、いつでもどこでも質問できます。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4 data-ja="回答が来るまで自分で考える" data-en="Think while waiting">回答が来るまで自分で考える</h4>
+            <p data-ja="回答を待つ間、自分で試行する力も身につきます。" data-en="The wait cultivates the power to think independently.">回答を待つ間、自分で試行する力も身につきます。</p>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4 data-ja="理解を深める" data-en="Deepen understanding">理解を深める</h4>
+            <p data-ja="講師の丁寧な回答で、一歩深い理解へ。" data-en="A thoughtful instructor reply takes you one step deeper.">講師の丁寧な回答で、一歩深い理解へ。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNT SETUP -->
+<section class="setup-section">
+  <div class="setup-inner">
+    <div class="section-label" data-ja="アカウント作成の流れ" data-en="How to Get Started">アカウント作成の流れ</div>
+    <h2 class="section-title reveal" data-ja="登録から学習開始まで" data-en="From Registration to Learning">登録から学習開始まで</h2>
+    <p class="reveal" style="font-size:0.95rem;color:var(--text-mid);line-height:1.9;font-weight:300;max-width:560px;" data-ja="かんたんな手順で、すぐに学びを始められます。" data-en="Simple steps to start learning right away.">かんたんな手順で、すぐに学びを始められます。</p>
+    <div class="setup-steps">
+
+      <div class="setup-step">
+        <div class="setup-circle">1</div>
+        <div class="setup-body">
+          <div class="setup-step-label">STEP 1</div>
+          <div class="setup-step-title" data-ja="「無料で学びはじめる」ボタンをクリック" data-en='Click "Start Learning Free" button'>"無料で学びはじめる"ボタンをクリック</div>
+          <div class="setup-step-desc" data-ja="トップページのボタンからサービスサイトへ移動します。" data-en="Click the button on the top page to go to the service site.">トップページのボタンからサービスサイトへ移動します。</div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-circle">2</div>
+        <div class="setup-body">
+          <div class="setup-step-label">STEP 2</div>
+          <div class="setup-step-title" data-ja="「初めての方はこちら」からアカウントを作成" data-en='Create an account from "New here? Sign up"'>「初めての方はこちら」からアカウントを作成</div>
+          <div class="setup-step-desc" data-ja="必要事項（名前・メールアドレスなど）を入力してアカウントを作成します。" data-en="Enter the required information (name, email address, etc.) to create your account.">必要事項（名前・メールアドレスなど）を入力してアカウントを作成します。</div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-circle">3</div>
+        <div class="setup-body">
+          <div class="setup-step-label">STEP 3</div>
+          <div class="setup-step-title" data-ja="「通知を設定」をオンにする" data-en='Enable "Notification Settings"'>「通知を設定」をオンにする</div>
+          <div class="setup-step-desc" data-ja="通知をオンにすることで、講師からの返信をすぐに受け取れます。" data-en="Turn on notifications to receive instructor replies right away.">通知をオンにすることで、講師からの返信をすぐに受け取れます。</div>
+          <div class="setup-warn">
+            <span class="wi">⚠️</span>
+            <span data-ja="通知をオンにしないと返信が届きません。また、一度オフにすると再設定ができないため、必ずオンのままにしておいてください。" data-en="If notifications are off, you won't receive replies. Once turned off, they cannot be re-enabled, so please keep them on.">通知をオンにしないと返信が届きません。また、一度オフにすると再設定ができないため、必ずオンのままにしておいてください。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="setup-circle">✓</div>
+        <div class="setup-body">
+          <div class="setup-step-label">STEP 4</div>
+          <div class="setup-step-title" data-ja="iPhone・iPad はホーム画面に追加（Webアプリ化）" data-en="iPhone / iPad: Add to Home Screen (Web App)">iPhone・iPad はホーム画面に追加（Webアプリ化）</div>
+          <div class="setup-step-desc" data-ja="iPhone・iPadをお使いの方は、Safariの共有ボタンから「ホーム画面に追加」してWebアプリとして利用できます。その他の端末はWebページとしてご利用ください。" data-en="iPhone/iPad users can tap the Share button in Safari and select 'Add to Home Screen' to use it as a web app. Other devices can use the web page as-is.">iPhone・iPadをお使いの方は、Safariの共有ボタンから「ホーム画面に追加」してWebアプリとして利用できます。その他の端末はWebページとしてご利用ください。</div>
+          <div class="setup-warn">
+            <span class="wi">📌</span>
+            <span data-ja="アプリページやタブは削除しないようにしてください。削除すると通知が受け取れなくなる場合があります。" data-en="Do not delete the app page or tab. Doing so may prevent you from receiving notifications.">アプリページやタブは削除しないようにしてください。削除すると通知が受け取れなくなる場合があります。</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-inner">
+    <div class="section-label" data-ja="提供する価値" data-en="Our Value">提供する価値</div>
+    <h2 class="section-title reveal" data-ja="Unicationが提供するもの" data-en="What Unication Offers">Unicationが提供するもの</h2>
+    <div class="features-grid stagger reveal">
+      <div class="feature-card">
+        <span class="feature-icon">⏰</span>
+        <h3 data-ja="いつでも" data-en="Anytime">いつでも</h3>
+        <p data-ja="時間を問わず学べる。深夜でも早朝でも、学びたい瞬間にサポートが届きます。" data-en="Learn regardless of time. Whether late at night or early morning, support reaches you when you need it.">時間を問わず学べる。深夜でも早朝でも、学びたい瞬間にサポートが届きます。</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📍</span>
+        <h3 data-ja="どこでも" data-en="Anywhere">どこでも</h3>
+        <p data-ja="場所を選ばない。スマートフォンひとつで、世界中の講師とつながれます。" data-en="No location limits. Connect with instructors worldwide from your smartphone.">場所を選ばない。スマートフォンひとつで、世界中の講師とつながれます。</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌐</span>
+        <h3 data-ja="多言語対応" data-en="Multilingual">多言語対応</h3>
+        <p data-ja="言語の壁を越えた学び。英会話・日本語を含む多言語でサポートします。" data-en="Learning beyond language barriers. Support in multiple languages including English and Japanese.">言語の壁を越えた学び。英会話・日本語を含む多言語でサポートします。</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📚</span>
+        <h3 data-ja="幅広い学習内容" data-en="Wide Range of Subjects">幅広い学習内容</h3>
+        <p data-ja="教科学習から言語学習まで。学びたいことにとどまらない、豊かな学びを提供します。" data-en="From academic subjects to language learning — rich learning that goes beyond the curriculum.">教科学習から言語学習まで。学びたいことにとどまらない、豊かな学びを提供します。</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🤝</span>
+        <h3 data-ja="人の温かさ" data-en="Human Warmth">人の温かさ</h3>
+        <p data-ja="AIではなく、本物の講師が対応。温かみのあるサポートが、学習意欲を高めます。" data-en="Real instructors, not AI. Warm human support boosts motivation to learn.">AIではなく、本物の講師が対応。温かみのあるサポートが、学習意欲を高めます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA（学校導入カード削除済み） -->
+<section class="cta-section" id="cta">
+  <div class="section-inner" style="text-align:center;position:relative;z-index:1;">
+    <div class="cta-label" data-ja="誰もが学べる世界を、あなたと一緒に作りたい。" data-en="We want to build a world where anyone can learn — with you.">誰もが学べる世界を、あなたと一緒に作りたい。</div>
+    <h2 class="cta-title reveal" data-ja="さあ、学びをはじめよう。" data-en="Start your learning journey.">さあ、学びをはじめよう。</h2>
+    <p class="cta-body reveal" data-ja="無料で体験できます。世界の講師があなたをサポートします。" data-en="Experience it for free. Instructors from around the world will support you.">無料で体験できます。世界の講師があなたをサポートします。</p>
+    <div class="cta-cards reveal">
+      <div class="cta-card">
+        <div class="cta-card-icon">🎓</div>
+        <h3 data-ja="学習者として登録" data-en="Register as a Learner">学習者として登録</h3>
+        <p data-ja="無料で体験してみましょう。世界の講師があなたをサポートします。" data-en="Try it for free. Instructors worldwide will support your learning.">無料で体験してみましょう。世界の講師があなたをサポートします。</p>
+        <a href="terms.html" class="cta-card-btn" data-ja="登録する →" data-en="Register →">登録する →</a>
+      </div>
+      <div class="cta-card" onclick="location.href='instructor.html'" style="cursor:pointer;">
+        <div class="cta-card-icon">🌏</div>
+        <h3 data-ja="講師として参加" data-en="Join as an Instructor">講師として参加</h3>
+        <p data-ja="あなたの経験と知識で、世界の学習者をサポートしましょう。" data-en="Use your experience and knowledge to support learners around the world.">あなたの経験と知識で、世界の学習者をサポートしましょう。</p>
+        <a href="instructor.html" class="cta-card-btn" data-ja="講師募集ページへ →" data-en="Instructor Page →">講師募集ページへ →</a>
+      </div>
+    </div>
+    <p class="cta-contact reveal">
+      <span data-ja="お問い合わせ：" data-en="Contact: ">お問い合わせ：</span>
+      <a href="https://forms.gle/9zBJF1MBLGoYKGuAA" target="_blank">お問い合わせフォーム</a>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo"><span class="uni">Uni</span><span class="cation">cation</span></div>
+  <p data-ja="「学びたい。」を我慢しない。" data-en="Don't hold back your desire to learn.">「学びたい。」を我慢しない。</p>
+  <p style="margin-top:14px;" data-ja="© 2025 Unication. All rights reserved." data-en="© 2025 Unication. All rights reserved.">© 2025 Unication. All rights reserved.</p>
+</footer>
+
+<script>
+  // ===== LANG =====
+  function applyLang(lang) {
+    document.querySelectorAll('[data-ja]').forEach(el => {
+      const t = el.getAttribute('data-' + lang);
+      if (t) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.documentElement.lang = lang === 'ja' ? 'ja' : 'en';
+  }
+  document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => applyLang(b.dataset.lang)));
+
+  // ===== NAVBAR SHADOW =====
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ===== FLOATING DOTS =====
+  const dotField = document.getElementById('dotField');
+  for (let i = 0; i < 22; i++) {
+    const d = document.createElement('div');
+    d.classList.add('fdot');
+    const size = Math.random() * 6 + 3;
+    d.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;bottom:${Math.random()*40}%;animation-duration:${Math.random()*6+5}s;animation-delay:${Math.random()*-12}s;`;
+    dotField.appendChild(d);
+  }
+
+  // ===== SCROLL REVEAL + STAGGER =====
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, .stagger, .setup-step').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
