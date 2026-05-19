@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>With In World — 「学びたい。」を我慢しない。</title>
+<title>Unication — 「学びたい。」を我慢しない。</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #1E3A6E;
@@ -34,8 +34,9 @@
     padding:0 40px; height:60px; transition:box-shadow 0.3s;
   }
   .lang-bar.scrolled { box-shadow:0 4px 24px rgba(30,58,110,0.1); }
-  .logo-nav { font-family:'DM Sans',sans-serif; font-weight:700; font-size:1.3rem; color:var(--navy); letter-spacing:-0.02em; text-decoration:none; }
-  .logo-nav span { color:var(--blue-mid); }
+  .logo-nav { font-family:'Comfortaa',cursive; font-weight:700; font-size:1.4rem; color:var(--navy); letter-spacing:0.01em; text-decoration:none; }
+  .logo-nav .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .logo-nav .cation { color:var(--navy); -webkit-text-fill-color:var(--navy); }
   .nav-links { display:flex; gap:28px; align-items:center; list-style:none; }
   .nav-links a { text-decoration:none; color:var(--text-mid); font-size:0.85rem; font-weight:500; transition:color 0.2s; }
   .nav-links a:hover { color:var(--navy); }
@@ -279,8 +280,9 @@
 
   /* ===== FOOTER ===== */
   footer { background:#0d1d40; padding:44px 40px; text-align:center; color:rgba(255,255,255,0.38); font-size:0.82rem; }
-  .foot-logo { font-family:'DM Sans',sans-serif; font-size:1.2rem; font-weight:700; color:rgba(255,255,255,0.78); margin-bottom:10px; }
-  .foot-logo span { color:var(--blue-light); }
+  .foot-logo { font-family:'Comfortaa',cursive; font-size:1.3rem; font-weight:700; color:rgba(255,255,255,0.9); margin-bottom:10px; }
+  .foot-logo .uni { background:linear-gradient(90deg,#6ecfa0,#f5c842); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .foot-logo .cation { color:white; -webkit-text-fill-color:white; }
 
   /* ===== SCROLL REVEAL ===== */
   .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.7s ease,transform 0.7s ease; }
@@ -312,7 +314,7 @@
 
 <!-- NAVBAR -->
 <nav class="lang-bar" id="navbar">
-  <div class="logo-nav">With In <span>World</span></div>
+  <div class="logo-nav"><span class="uni">Uni</span><span class="cation">cation</span></div>
   <ul class="nav-links">
     <li><a href="#about" data-ja="サービスとは" data-en="About">サービスとは</a></li>
     <li><a href="#how" data-ja="使い方" data-en="How it works">使い方</a></li>
@@ -366,7 +368,7 @@
       <div class="chat-demo">
         <div class="chat-header">
           <div class="chat-dots"><span></span><span></span><span></span></div>
-          <div class="chat-title">With In World — Chat</div>
+          <div class="chat-title">Unication — Chat</div>
         </div>
         <div class="chat-body">
           <div class="chat-msg user" style="--d:0.4s">
@@ -599,7 +601,7 @@
 <section class="features-section" id="features">
   <div class="section-inner">
     <div class="section-label" data-ja="提供する価値" data-en="Our Value">提供する価値</div>
-    <h2 class="section-title reveal" data-ja="With In Worldが提供するもの" data-en="What With In World Offers">With In Worldが提供するもの</h2>
+    <h2 class="section-title reveal" data-ja="Unicationが提供するもの" data-en="What Unication Offers">Unicationが提供するもの</h2>
     <div class="features-grid stagger reveal">
       <div class="feature-card">
         <span class="feature-icon">⏰</span>
@@ -659,9 +661,9 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-logo">With In <span>World</span></div>
+  <div class="foot-logo"><span class="uni">Uni</span><span class="cation">cation</span></div>
   <p data-ja="「学びたい。」を我慢しない。" data-en="Don't hold back your desire to learn.">「学びたい。」を我慢しない。</p>
-  <p style="margin-top:14px;" data-ja="© 2025 With In World. All rights reserved." data-en="© 2025 With In World. All rights reserved.">© 2025 With In World. All rights reserved.</p>
+  <p style="margin-top:14px;" data-ja="© 2025 Unication. All rights reserved." data-en="© 2025 Unication. All rights reserved.">© 2025 Unication. All rights reserved.</p>
 </footer>
 
 <script>
